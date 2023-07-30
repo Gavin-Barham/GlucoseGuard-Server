@@ -2,4 +2,4 @@ node_modules
 .dockerignore
 docker-compose.yml
 Dockerfile
-*/dist/*
+dist/*
