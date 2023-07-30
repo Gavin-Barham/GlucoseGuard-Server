@@ -1,0 +1,31 @@
+{
+  "name": "health-tracker-server-ts",
+  "version": "1.0.0",
+  "description": "A type safe express sever for health-tracker application",
+  "main": "./dist/index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx tsc",
+    "dev": "npx tsc && node ./dist/server.js",
+    "start": "node ./dist/server.js"
+  },
+  "author": "Gavin Barham",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/cors": "^2.8.13",
+    "@types/express": "^4.17.17",
+    "@types/node": "^20.4.5",
+    "@types/sequelize": "^4.28.15",
+    "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "@types/cookie-parser": "^1.4.3",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "pg": "^8.11.1",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.32.1"
+  }
+}
