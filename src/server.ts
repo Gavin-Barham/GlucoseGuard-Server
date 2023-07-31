@@ -3,10 +3,10 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import home from './Routers/homeRouter.js';
-import { DATABASE as DB } from './Database/DATABASE.js';
+import { DATABASE as DB } from './Database/Database.js';
 
 const App: Express = express();
-const PORT: number = 3030;
+const PORT: number | string = process.env.PORT || 3030;
 
 App.use(cors())
 App.use(bodyParser.json());
@@ -27,7 +27,14 @@ App.use(cookieParser());
     } catch (error) {
         console.error('Unable to connect to the database:', error);
     };
+    try {
+        await DB.close();
+        console.log('Connection closed successfully.');
+    } catch (error) {
+        console.error('Unable to close the connection:', error);
+    };
 })();
+
 
 App.use("/", home);
 

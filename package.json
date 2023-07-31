@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npx tsc",
+    "build": "rm -rf dist && npx tsc",
     "dev": "npx tsc && node ./dist/server.js",
     "start": "node ./dist/server.js"
   },
