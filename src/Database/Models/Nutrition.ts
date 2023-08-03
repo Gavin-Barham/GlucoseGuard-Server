@@ -26,7 +26,7 @@ interface NutritionAttributes {
 }
 declare type NutritionCreationAttributes = Optional<
 	NutritionAttributes,
-	'userId' | 'breakfast' | 'lunch' | 'dinner' | 'snacks'
+	'breakfast' | 'lunch' | 'dinner' | 'snacks'
 >;
 
 @Table

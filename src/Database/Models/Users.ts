@@ -18,13 +18,7 @@ interface UserAttributes {
 }
 declare type UserCreationAttributes = Optional<
 	UserAttributes,
-	| 'fname'
-	| 'lname'
-	| 'email'
-	| 'password'
-	| 'height'
-	| 'targetCal'
-	| 'refreshToken'
+	'fname' | 'lname' | 'height' | 'targetCal' | 'refreshToken'
 >;
 
 @Table

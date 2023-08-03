@@ -1,5 +1,5 @@
 // DB DEPENDENCIES
-import { DataTypes, Optional } from 'sequelize';
+import { DataTypes, InferCreationAttributes } from 'sequelize';
 import {
 	Model,
 	Table,
@@ -24,13 +24,10 @@ interface DatesAttributes {
 	nutritionId: number;
 	exerciseId: number;
 }
-declare type DatesCreationAttributes = Optional<
-	DatesAttributes,
-	'userId' | 'medicalId' | 'nutritionId' | 'exerciseId'
->;
+
 
 @Table
-class DATES extends Model<DatesAttributes, DatesCreationAttributes> {
+class DATES extends Model<DatesAttributes, InferCreationAttributes<DATES>> {
 	@PrimaryKey
 	@Column(DataTypes.INTEGER)
 	dateId: number;

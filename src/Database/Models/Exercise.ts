@@ -27,7 +27,7 @@ interface ExerciseAttributes {
 }
 declare type ExerciseCreationAttributes = Optional<
 	ExerciseAttributes,
-	'userId' | 'weight' | 'dailySteps' | 'miles' | 'calsBurned' | 'sleep'
+	'weight' | 'dailySteps' | 'miles' | 'calsBurned' | 'sleep'
 >;
 
 @Table

@@ -28,8 +28,7 @@ interface MedicalAttributes {
 
 declare type MedicalCreationAttributes = Optional<
 	MedicalAttributes,
-	| 'userId'
-	| 'oxygen'
+	'oxygen'
 	| 'heartRate'
 	| 'bloodPressure'
 	| 'bloodGlucose'
