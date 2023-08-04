@@ -1,25 +1,16 @@
-// DB DEPENDENCIES
-import { DataTypes, Optional } from 'sequelize';
+// Model DEPENDENCIES
+import { DataTypes } from 'sequelize';
 import { Table, Model, Column, AllowNull, HasMany } from 'sequelize-typescript';
 import { DBConnection } from '../config.js';
 
 // MODELS
 import { DATES } from './Dates.js';
 
-interface UserAttributes {
-	id: number;
-	email: string;
-	password: string;
-	fname?: string;
-	lname?: string;
-	height?: number;
-	targetCal?: string;
-	refreshToken?: string;
-}
-declare type UserCreationAttributes = Optional<
+// TYPES
+import {
 	UserAttributes,
-	'fname' | 'lname' | 'height' | 'targetCal' | 'refreshToken'
->;
+	UserCreationAttributes,
+} from '../../Types/Models/users.js';
 
 @Table
 class USERS extends Model<UserAttributes, UserCreationAttributes> {

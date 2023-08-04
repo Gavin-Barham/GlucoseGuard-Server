@@ -1,5 +1,5 @@
 // DB DEPENDENCIES
-import { DataTypes, Optional } from 'sequelize';
+import { DataTypes } from 'sequelize';
 import {
 	Model,
 	Table,
@@ -14,21 +14,12 @@ import { DBConnection } from '../config.js';
 import { DATES } from './Dates.js';
 
 // TYPES
-import { CalsBurned, Sleep } from '../../Types/models.js';
-
-interface ExerciseAttributes {
-	userId: number;
-	exerciseId: number;
-	weight?: number;
-	dailySteps?: number;
-	miles?: number;
-	calsBurned?: CalsBurned;
-	sleep?: Sleep;
-}
-declare type ExerciseCreationAttributes = Optional<
+import {
 	ExerciseAttributes,
-	'weight' | 'dailySteps' | 'miles' | 'calsBurned' | 'sleep'
->;
+	ExerciseCreationAttributes,
+	CalsBurned,
+	Sleep,
+} from '../../Types/Models/exercise.js';
 
 @Table
 class EXERCISE extends Model<ExerciseAttributes, ExerciseCreationAttributes> {
@@ -62,4 +53,4 @@ class EXERCISE extends Model<ExerciseAttributes, ExerciseCreationAttributes> {
 }
 DBConnection.addModels([EXERCISE]);
 
-export { EXERCISE };
+export { EXERCISE, ExerciseAttributes };

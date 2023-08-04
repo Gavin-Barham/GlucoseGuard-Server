@@ -1,5 +1,5 @@
 // DB DEPENDENCIES
-import { DataTypes, Optional } from 'sequelize';
+import { DataTypes } from 'sequelize';
 import {
 	Model,
 	Table,
@@ -13,27 +13,12 @@ import { DBConnection } from '../config.js';
 import { DATES } from './Dates.js';
 
 // TYPES
-import { Medication, BloodPressure } from '../../Types/models.js';
-
-interface MedicalAttributes {
-	userId: number;
-	dateId: number;
-	medicalId: number;
-	oxygen?: string;
-	heartRate?: number[];
-	bloodPressure?: BloodPressure;
-	bloodGlucose?: number[];
-	medication?: Medication;
-}
-
-declare type MedicalCreationAttributes = Optional<
+import {
 	MedicalAttributes,
-	'oxygen'
-	| 'heartRate'
-	| 'bloodPressure'
-	| 'bloodGlucose'
-	| 'medication'
->;
+	MedicalCreationAttributes,
+	Medication,
+	BloodPressure,
+} from '../../Types/Models/medical.js';
 
 @Table
 class MEDICAL extends Model<MedicalAttributes, MedicalCreationAttributes> {
@@ -63,4 +48,4 @@ class MEDICAL extends Model<MedicalAttributes, MedicalCreationAttributes> {
 
 DBConnection.addModels([MEDICAL]);
 
-export { MEDICAL };
+export { MEDICAL, MedicalAttributes };

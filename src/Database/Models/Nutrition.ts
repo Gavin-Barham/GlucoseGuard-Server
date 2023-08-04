@@ -1,5 +1,5 @@
 // DB DEPENDENCIES
-import { DataTypes, Optional } from 'sequelize';
+import { DataTypes } from 'sequelize';
 import {
 	Model,
 	Table,
@@ -14,20 +14,11 @@ import { DBConnection } from '../config.js';
 import { DATES } from './Dates.js';
 
 // TYPES
-import { Meal } from '../../Types/models.js';
-
-interface NutritionAttributes {
-	userId: number;
-	nutritionId: number;
-	breakfast?: Meal;
-	lunch?: Meal;
-	dinner?: Meal;
-	snacks?: Meal[];
-}
-declare type NutritionCreationAttributes = Optional<
+import {
 	NutritionAttributes,
-	'breakfast' | 'lunch' | 'dinner' | 'snacks'
->;
+	NutritionCreationAttributes,
+	Meal,
+} from '../../Types/Models/nutrition.js';
 
 @Table
 class NUTRITION extends Model<
@@ -60,4 +51,4 @@ class NUTRITION extends Model<
 }
 DBConnection.addModels([NUTRITION]);
 
-export { NUTRITION };
+export { NUTRITION, NutritionAttributes };

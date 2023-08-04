@@ -1,15 +1,15 @@
 {
-  "compilerOptions": {
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "target": "ES2022",
-    "sourceMap": true,
-    "outDir": "dist",
-    "types": ["express", "cookie-parser", "cors", "sequelize"],                                    
-    "forceConsistentCasingInFileNames": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
-  },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules"]
+	"compilerOptions": {
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext",
+		"target": "ES2022",
+		"sourceMap": true,
+		"outDir": "dist",
+		"types": ["express", "cookie-parser", "cors", "sequelize"],
+		"forceConsistentCasingInFileNames": true,
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true
+	},
+	"include": ["src/*"],
+	"exclude": ["node_modules"]
 }

@@ -16,15 +16,8 @@ import { MEDICAL } from './Medical.js';
 import { NUTRITION } from './Nutrition.js';
 import { EXERCISE } from './Exercise.js';
 
-interface DatesAttributes {
-	userId: number;
-	dateId: number;
-	date: Date;
-	medicalId: number;
-	nutritionId: number;
-	exerciseId: number;
-}
-
+// TYPES
+import { DatesAttributes } from '../../Types/Models/dates.js';
 
 @Table
 class DATES extends Model<DatesAttributes, InferCreationAttributes<DATES>> {
@@ -57,4 +50,4 @@ class DATES extends Model<DatesAttributes, InferCreationAttributes<DATES>> {
 }
 DBConnection.addModels([DATES]);
 
-export { DATES };
+export { DATES, DatesAttributes };

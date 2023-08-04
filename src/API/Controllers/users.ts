@@ -1,10 +1,11 @@
+import { Request, Response } from 'express';
 // MODELS
 import { USERS } from '../../Database/Models/Users.js';
 
 // CRUD CONTROLLERS //
 
 // UPDATE USER
-const updateUserById = async (req, res) => {
+const updateUserById = async (req: Request, res: Response) => {
 	const id = req.params.id;
 	const updatedUser = req.body;
 	const user = await USERS.findByPk(id);
@@ -38,7 +39,7 @@ const updateUserById = async (req, res) => {
 };
 
 // DELETE USER
-const deleteUserById = async (req, res) => {
+const deleteUserById = async (req: Request, res: Response) => {
 	const id = req.params.id;
 	const user = await USERS.findByPk(id);
 	if (!user) {
