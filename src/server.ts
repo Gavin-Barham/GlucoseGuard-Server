@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import home from './API/Routers/homeRouter.js';
 import { DBConnection } from './Database/config.js';
 import { authn } from './API/Routers/authn.js';
+import { users } from './API/Routers/users.js';
 
 const App: Express = express();
 const PORT: number | string = process.env.PORT || 3030;
@@ -28,13 +29,14 @@ App.use(cookieParser());
 	try {
 		await DBConnection.sync({ force: true });
 		console.log('Connection has been established successfully.');
-	} catch (error) {
-		console.error('Unable to connect to the database:', error);
+	} catch (err) {
+		console.error('Unable to connect to the database:', err.message);
 	}
 })();
 
 App.use('/', home);
 App.use('/authn', authn);
+App.use('/users', users);
 
 App.listen(PORT, () => {
 	console.log(

@@ -2,13 +2,18 @@ import express, { Router } from 'express';
 const router: Router = express.Router();
 
 // IMPORT CONTROLLERS
-import { updateUserById, deleteUserById } from '../Controllers/users.js';
+import {
+	updateUserById,
+	getUserById,
+	deleteUserById,
+} from '../Controllers/users.js';
 // import { createMedical, getMedicalByDate, updateMedical } from '../Controllers/medical.';
 // import { createNutrition, getNutritionByDate, updateNutrition } from '../controllers/nutrition';
 // import { createExercise, getExerciseByDate, updateExercise } from '../controllers/exercise';
 // import {  getAllByDate  } from '../controllers/allTables';
 
 // ROUTES FOR /users
+router.get('/:id', getUserById);
 router.put('/:id', updateUserById);
 router.delete('/:id', deleteUserById);
 
@@ -29,4 +34,4 @@ router.delete('/:id', deleteUserById);
 
 // router.get('/all/:id/', getAllByDate);
 
-module.exports = router;
+export { router as users };
