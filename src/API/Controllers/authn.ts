@@ -3,6 +3,8 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
+import { UserCreationAttributes } from '../../Types/Models/users.js';
+
 // MODELS
 import { USERS } from '../../Database/Models/Users.js';
 
@@ -32,7 +34,7 @@ const handleRegister = async (req: Request, res: Response) => {
 	if (userEmail)
 		return res
 			.status(403)
-			.send({ ok: false, message: 'Username already exists' });
+			.send({ ok: false, message: 'Email already exists' });
 
 	// ENCRYPT PASSWORD
 	const salt = bcrypt.genSaltSync(10);
@@ -43,7 +45,7 @@ const handleRegister = async (req: Request, res: Response) => {
 		await USERS.create({
 			email: reqEmail,
 			password: hashedPassword,
-		});
+		} as UserCreationAttributes);
 		res.status(201).send({
 			ok: true,
 			message: 'User created successfully',

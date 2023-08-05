@@ -6,6 +6,7 @@ import home from './API/Routers/homeRouter.js';
 import { DBConnection } from './Database/config.js';
 import { authn } from './API/Routers/authn.js';
 import { users } from './API/Routers/users.js';
+import { dates } from './API/Routers/dates.js';
 
 const App: Express = express();
 const PORT: number | string = process.env.PORT || 3030;
@@ -27,7 +28,7 @@ App.use(cookieParser());
 
 (async () => {
 	try {
-		await DBConnection.sync({ force: true });
+		await DBConnection.sync({ alter: true, force: true });
 		console.log('Connection has been established successfully.');
 	} catch (err) {
 		console.error('Unable to connect to the database:', err.message);
@@ -37,6 +38,11 @@ App.use(cookieParser());
 App.use('/', home);
 App.use('/authn', authn);
 App.use('/users', users);
+App.use('/dates', dates);
+// TODO:
+// App.use('/medical', medical);
+// App.use('/nutrition', nutrition);
+// App.use('/exercise', exercise);
 
 App.listen(PORT, () => {
 	console.log(

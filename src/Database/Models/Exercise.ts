@@ -4,7 +4,6 @@ import {
 	Model,
 	Table,
 	Column,
-	PrimaryKey,
 	ForeignKey,
 	AllowNull,
 } from 'sequelize-typescript';
@@ -17,16 +16,11 @@ import { DATES } from './Dates.js';
 import {
 	ExerciseAttributes,
 	ExerciseCreationAttributes,
-	CalsBurned,
 	Sleep,
 } from '../../Types/Models/exercise.js';
 
 @Table
 class EXERCISE extends Model<ExerciseAttributes, ExerciseCreationAttributes> {
-	@PrimaryKey
-	@Column(DataTypes.INTEGER)
-	exerciseId: number;
-
 	@ForeignKey(() => DATES)
 	@Column(DataTypes.INTEGER)
 	dateId: number;
@@ -37,15 +31,15 @@ class EXERCISE extends Model<ExerciseAttributes, ExerciseCreationAttributes> {
 
 	@AllowNull
 	@Column(DataTypes.INTEGER)
-	daily_steps?: number;
+	dailySteps?: number;
 
 	@AllowNull
 	@Column(DataTypes.INTEGER)
 	miles?: number;
 
 	@AllowNull
-	@Column(DataTypes.JSON)
-	calsBurned?: CalsBurned;
+	@Column(DataTypes.INTEGER)
+	calsBurned?: number;
 
 	@AllowNull
 	@Column(DataTypes.JSON)

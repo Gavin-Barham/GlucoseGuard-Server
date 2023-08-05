@@ -4,6 +4,39 @@ import { USERS } from '../../Database/Models/Users.js';
 
 // CRUD CONTROLLERS //
 
+// GET USER
+const getUserById = async (req: Request, res: Response) => {
+	const id = req.params.id;
+	try {
+		const user = await USERS.findByPk(id, {
+			attributes: {
+				exclude: [
+					'email',
+					'password',
+					'refreshToken',
+					'dates',
+					'updatedAt',
+					'createdAt',
+				],
+			},
+		});
+		if (!user) {
+			return res
+				.status(404)
+				.json({ ok: false, message: 'User not found' });
+		}
+		return res
+			.status(200)
+			.json({ ok: true, message: 'Success', user: user });
+	} catch (err) {
+		console.error(err.message);
+		return res.status(500).send({
+			ok: false,
+			message: 'Error occured with database (find user)',
+		});
+	}
+};
+
 // UPDATE USER
 const updateUserById = async (req: Request, res: Response) => {
 	const id = req.params.id;
@@ -11,7 +44,9 @@ const updateUserById = async (req: Request, res: Response) => {
 	try {
 		const user = await USERS.findByPk(id);
 		if (!user) {
-			return res.status(404).json({ ok: false, message: 'user not found' });
+			return res
+				.status(404)
+				.json({ ok: false, message: 'user not found' });
 		}
 		try {
 			const updatedUserRow = await USERS.update(
@@ -30,7 +65,10 @@ const updateUserById = async (req: Request, res: Response) => {
 				},
 			);
 			if (!updatedUserRow) {
-				res.status(500).json({ ok: false, message: 'unable to update user' });
+				res.status(500).json({
+					ok: false,
+					message: 'unable to update user',
+				});
 			} else {
 				res.status(200).json({
 					ok: true,
@@ -39,30 +77,17 @@ const updateUserById = async (req: Request, res: Response) => {
 			}
 		} catch (err) {
 			console.error(err.message);
-			return res.status(500).send({ ok: false, message: 'Error occured with database(update)' })
+			return res.status(500).send({
+				ok: false,
+				message: 'Error occured with database(update)',
+			});
 		}
 	} catch (err) {
 		console.error(err.message);
-		return res.status(500).send({ ok: false, message: 'Error occured with database(find user)' })
-	}
-};
-
-// GET USER
-const getUserById = async (req: Request, res: Response) => {
-	const id = req.params.id;
-	try {
-		const user = await USERS.findByPk(id, {
-			attributes: {
-				exclude: ['email', 'password', 'refreshToken', 'dates', "updatedAt", "createdAt"],
-			},
+		return res.status(500).send({
+			ok: false,
+			message: 'Error occured with database(find user)',
 		});
-		if (!user) {
-			return res.status(404).json({ ok: false, message: 'User not found' });
-		}
-		return res.status(404).json({ ok: true, message: 'Success', user: user });
-	} catch (err) {
-		console.error(err.message);
-		return res.status(500).send({ ok: false, message: 'Error occured with database (find user)' });
 	}
 };
 
@@ -72,23 +97,30 @@ const deleteUserById = async (req: Request, res: Response) => {
 	try {
 		const user = await USERS.findByPk(id);
 		if (!user) {
-			return res.status(404).json({ ok: false, message: 'user not found' });
+			return res
+				.status(404)
+				.json({ ok: false, message: 'user not found' });
 		}
 		try {
 			await user.destroy();
-	
+
 			return res.status(200).json({
 				message: 'user deleted successfully',
 			});
 		} catch (err) {
 			console.error(err.message);
-			return res.status(500).send({ ok: false, message: 'Error occured with database (destroy user)' });
+			return res.status(500).send({
+				ok: false,
+				message: 'Error occured with database (destroy user)',
+			});
 		}
 	} catch (err) {
 		console.error(err.message);
-		return res.status(500).json({ ok: false, message: 'Error occured with database (find user)' });
+		return res.status(500).json({
+			ok: false,
+			message: 'Error occured with database (find user)',
+		});
 	}
-
 };
 
-export { updateUserById, getUserById, deleteUserById };
+export { getUserById, updateUserById, deleteUserById };

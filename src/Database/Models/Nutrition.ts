@@ -4,7 +4,6 @@ import {
 	Model,
 	Table,
 	Column,
-	PrimaryKey,
 	ForeignKey,
 	AllowNull,
 } from 'sequelize-typescript';
@@ -25,13 +24,9 @@ class NUTRITION extends Model<
 	NutritionAttributes,
 	NutritionCreationAttributes
 > {
-	@PrimaryKey
-	@Column(DataTypes.INTEGER)
-	nutritionId: number;
-
 	@ForeignKey(() => DATES)
 	@Column(DataTypes.INTEGER)
-	dateID: number;
+	dateId: number;
 
 	@AllowNull
 	@Column(DataTypes.JSON)

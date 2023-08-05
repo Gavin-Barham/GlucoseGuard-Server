@@ -1,12 +1,12 @@
 // DB DEPENDENCIES
-import { DataTypes, InferCreationAttributes } from 'sequelize';
+import { DataTypes } from 'sequelize';
 import {
 	Model,
 	Table,
 	Column,
 	ForeignKey,
-	PrimaryKey,
 	HasOne,
+	AllowNull,
 } from 'sequelize-typescript';
 import { DBConnection } from '../config.js';
 
@@ -17,28 +17,35 @@ import { NUTRITION } from './Nutrition.js';
 import { EXERCISE } from './Exercise.js';
 
 // TYPES
-import { DatesAttributes } from '../../Types/Models/dates.js';
+import {
+	DatesAttributes,
+	DatesCreationAttributes,
+} from '../../Types/Models/dates.js';
 
 @Table
-class DATES extends Model<DatesAttributes, InferCreationAttributes<DATES>> {
-	@PrimaryKey
-	@Column(DataTypes.INTEGER)
-	dateId: number;
-
+class DATES extends Model<DatesAttributes, DatesCreationAttributes> {
+	@AllowNull(false)
 	@Column(DataTypes.DATE)
-	date: number;
+	date: Date;
 
+	@AllowNull(false)
 	@ForeignKey(() => USERS)
 	@Column(DataTypes.INTEGER)
 	userId: number;
 
+	@AllowNull
 	@ForeignKey(() => MEDICAL)
+	@Column(DataTypes.INTEGER)
 	medicalId: number;
 
+	@AllowNull
 	@ForeignKey(() => NUTRITION)
+	@Column(DataTypes.INTEGER)
 	nutritionId: number;
 
+	@AllowNull
 	@ForeignKey(() => EXERCISE)
+	@Column(DataTypes.INTEGER)
 	exerciseId: number;
 
 	@HasOne(() => MEDICAL)
@@ -50,4 +57,4 @@ class DATES extends Model<DatesAttributes, InferCreationAttributes<DATES>> {
 }
 DBConnection.addModels([DATES]);
 
-export { DATES, DatesAttributes };
+export { DATES };

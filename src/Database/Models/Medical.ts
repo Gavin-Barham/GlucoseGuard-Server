@@ -1,12 +1,6 @@
 // DB DEPENDENCIES
 import { DataTypes } from 'sequelize';
-import {
-	Model,
-	Table,
-	Column,
-	PrimaryKey,
-	ForeignKey,
-} from 'sequelize-typescript';
+import { Model, Table, Column, ForeignKey } from 'sequelize-typescript';
 import { DBConnection } from '../config.js';
 
 // MODELS
@@ -22,10 +16,6 @@ import {
 
 @Table
 class MEDICAL extends Model<MedicalAttributes, MedicalCreationAttributes> {
-	@PrimaryKey
-	@Column(DataTypes.INTEGER)
-	medicalId: number;
-
 	@ForeignKey(() => DATES)
 	@Column(DataTypes.INTEGER)
 	dateId: number;
@@ -34,13 +24,13 @@ class MEDICAL extends Model<MedicalAttributes, MedicalCreationAttributes> {
 	oxygen?: string;
 
 	@Column(DataTypes.INTEGER)
-	heart_rate?: number;
+	heartRate?: number;
 
 	@Column(DataTypes.JSON)
-	blood_pressure?: BloodPressure;
+	bloodPressure?: BloodPressure;
 
 	@Column(DataTypes.JSON)
-	blood_glucose?: number[];
+	bloodGlucose?: number[];
 
 	@Column(DataTypes.JSON)
 	medication?: Medication;
