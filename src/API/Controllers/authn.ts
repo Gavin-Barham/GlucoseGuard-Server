@@ -9,7 +9,7 @@ import { UserCreationAttributes } from '../../Types/Models/users.js';
 import { USERS } from '../../Database/Models/Users.js';
 
 // MIDDLEWARE
-import { validateLogin } from '../Middleware/validatLoginRequest.js';
+import { validateLogin } from '../Utils/validatLoginRequest.js';
 
 // CRUD CONTROLLERS
 
