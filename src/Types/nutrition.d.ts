@@ -2,8 +2,8 @@
 import { Optional } from 'sequelize';
 
 interface NutritionAttributes {
-	id: number;
-	dateId: number;
+	id?: number;
+	dateId?: number;
 	breakfast?: Meal;
 	lunch?: Meal;
 	dinner?: Meal;

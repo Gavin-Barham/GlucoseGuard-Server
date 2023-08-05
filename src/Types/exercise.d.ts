@@ -2,8 +2,8 @@
 import { Optional } from 'sequelize';
 
 interface ExerciseAttributes {
-	id: number;
-	dateId: number;
+	id?: number;
+	dateId?: number;
 	weight?: number;
 	dailySteps?: number;
 	miles?: number;

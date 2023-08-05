@@ -2,8 +2,8 @@
 import { Optional } from 'sequelize';
 
 interface MedicalAttributes {
-	id: number;
-	dateId: number;
+	id?: number;
+	dateId?: number;
 	oxygen?: string;
 	heartRate?: number[];
 	bloodPressure?: BloodPressure;

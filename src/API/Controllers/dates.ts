@@ -6,8 +6,12 @@ import { USERS } from '../../Database/Models/Users.js';
 import { MEDICAL } from '../../Database/Models/Medical.js';
 import { NUTRITION } from '../../Database/Models/Nutrition.js';
 import { EXERCISE } from '../../Database/Models/Exercise.js';
+// TYPES
 import { DatesCreationAttributes } from '../../Types/dates.js';
-
+import { MedicalAttributes } from '../../Types/medical.js';
+import { NutritionAttributes } from '../../Types/nutrition.js';
+import { ExerciseAttributes } from '../../Types/exercise.js';
+// HELPER FUNCTIONS
 import {
 	setMedicalFields,
 	setNutritionFields,
@@ -397,7 +401,10 @@ const handleUpdateMedical = async (req: Request, res: Response) => {
 				.status(404)
 				.send({ ok: false, message: 'Day not found' });
 		}
-		const updatedFields = setMedicalFields(medicalId, updateReq);
+		const updatedFields: MedicalAttributes = setMedicalFields(
+			medicalId,
+			updateReq,
+		);
 		await MEDICAL.update(updatedFields, {
 			where: {
 				dateId: dateId.dataValues.id,
@@ -437,7 +444,10 @@ const handleUpdateNutrition = async (req: Request, res: Response) => {
 				.status(404)
 				.send({ ok: false, message: 'Day not found' });
 		}
-		const updatedFields = setNutritionFields(nutritionId, updateReq);
+		const updatedFields: NutritionAttributes = setNutritionFields(
+			nutritionId,
+			updateReq,
+		);
 		await NUTRITION.update(updatedFields, {
 			where: {
 				dateId: dateId.dataValues.id,
@@ -477,7 +487,10 @@ const handleUpdateExercise = async (req: Request, res: Response) => {
 				.status(404)
 				.send({ ok: false, message: 'Day not found' });
 		}
-		const updatedFields = setExerciseFields(exerciseId, updateReq);
+		const updatedFields: ExerciseAttributes = setExerciseFields(
+			exerciseId,
+			updateReq,
+		);
 		await EXERCISE.update(updatedFields, {
 			where: {
 				dateId: dateId.dataValues.id,

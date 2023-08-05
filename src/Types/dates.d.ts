@@ -4,9 +4,9 @@ import { MEDICAL } from '../Database/Models/Medical.js';
 import { NUTRITION } from '../Database/Models/Nutrition.js';
 import { EXERCISE } from '../Database/Models/Exercise.js';
 interface DatesAttributes {
-	id: number;
-	userId: number;
-	date: Date;
+	id?: number;
+	userId?: number;
+	date?: Date;
 	medicalId?: number;
 	nutritionId?: number;
 	exerciseId?: number;
