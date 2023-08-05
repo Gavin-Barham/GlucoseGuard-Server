@@ -25,7 +25,7 @@ function setExerciseFields(reqObj, dbRowObj) {
 		weight: reqObj.weight || dbRowObj.weight,
 		dailySteps: reqObj.dailySteps || dbRowObj.dailySteps,
 		miles: reqObj.miles || dbRowObj.miles,
-		caloriesBurned: reqObj.caloriesBurned || dbRowObj.caloriesBurned,
+		calsBurned: reqObj.calsBurned || dbRowObj.calsBurned,
 		sleep: reqObj.sleep || dbRowObj.sleep,
 	};
 	return exerciseFields;
