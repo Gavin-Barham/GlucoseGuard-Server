@@ -7,10 +7,7 @@ import { DBConnection } from '../config.js';
 import { DATES } from './Dates.js';
 
 // TYPES
-import {
-	UserAttributes,
-	UserCreationAttributes,
-} from '../../Types/Models/users.js';
+import { UserAttributes, UserCreationAttributes } from '../../Types/users.js';
 
 @Table
 class USERS extends Model<UserAttributes, UserCreationAttributes> {

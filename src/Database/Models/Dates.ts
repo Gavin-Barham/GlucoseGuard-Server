@@ -17,10 +17,7 @@ import { NUTRITION } from './Nutrition.js';
 import { EXERCISE } from './Exercise.js';
 
 // TYPES
-import {
-	DatesAttributes,
-	DatesCreationAttributes,
-} from '../../Types/Models/dates.js';
+import { DatesAttributes, DatesCreationAttributes } from '../../Types/dates.js';
 
 @Table
 class DATES extends Model<DatesAttributes, DatesCreationAttributes> {

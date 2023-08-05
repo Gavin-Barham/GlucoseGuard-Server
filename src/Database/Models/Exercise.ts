@@ -17,7 +17,7 @@ import {
 	ExerciseAttributes,
 	ExerciseCreationAttributes,
 	Sleep,
-} from '../../Types/Models/exercise.js';
+} from '../../Types/exercise.js';
 
 @Table
 class EXERCISE extends Model<ExerciseAttributes, ExerciseCreationAttributes> {

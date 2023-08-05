@@ -6,7 +6,7 @@ import { USERS } from '../../Database/Models/Users.js';
 import { MEDICAL } from '../../Database/Models/Medical.js';
 import { NUTRITION } from '../../Database/Models/Nutrition.js';
 import { EXERCISE } from '../../Database/Models/Exercise.js';
-import { DatesCreationAttributes } from '../../Types/Models/dates.js';
+import { DatesCreationAttributes } from '../../Types/dates.js';
 
 import {
 	setMedicalFields,

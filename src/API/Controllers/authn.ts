@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-import { UserCreationAttributes } from '../../Types/Models/users.js';
+import { UserCreationAttributes } from '../../Types/users.js';
 
 // MODELS
 import { USERS } from '../../Database/Models/Users.js';
@@ -152,8 +152,4 @@ const handleRefreshToken = async (req: Request, res: Response) => {
 	}
 };
 
-const handleCheckToken = (req, res) => {
-	res.status(200).send({ ok: false, message: 'OK' });
-};
-
-export { handleLogin, handleRegister, handleRefreshToken, handleCheckToken };
+export { handleLogin, handleRegister, handleRefreshToken };

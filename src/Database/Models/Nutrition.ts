@@ -17,7 +17,7 @@ import {
 	NutritionAttributes,
 	NutritionCreationAttributes,
 	Meal,
-} from '../../Types/Models/nutrition.js';
+} from '../../Types/nutrition.js';
 
 @Table
 class NUTRITION extends Model<

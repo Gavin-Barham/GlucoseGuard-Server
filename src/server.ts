@@ -39,10 +39,6 @@ App.use('/', home);
 App.use('/authn', authn);
 App.use('/users', users);
 App.use('/dates', dates);
-// TODO:
-// App.use('/medical', medical);
-// App.use('/nutrition', nutrition);
-// App.use('/exercise', exercise);
 
 App.listen(PORT, () => {
 	console.log(

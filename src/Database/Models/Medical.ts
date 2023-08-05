@@ -12,7 +12,7 @@ import {
 	MedicalCreationAttributes,
 	Medication,
 	BloodPressure,
-} from '../../Types/Models/medical.js';
+} from '../../Types/medical.js';
 
 @Table
 class MEDICAL extends Model<MedicalAttributes, MedicalCreationAttributes> {
