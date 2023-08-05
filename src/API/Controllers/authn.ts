@@ -65,22 +65,21 @@ const handleLogin = async (req: Request, res: Response) => {
 
 	// CHECK IF USER EXISTS
 	const user = await USERS.findOne({ where: { email: reqEmail } });
-	if (!user)
+	if (!user) {
 		return res
 			.status(400)
 			.send({ ok: false, message: 'Credentials are incorrect' });
-
-	console.log(reqEmail, reqPassword, user);
+	}
 	// CHECK IF PASSWORD MATCHES
 	const validPassword = await bcrypt.compare(
 		reqPassword,
 		user.dataValues.password,
 	);
-	if (!validPassword)
+	if (!validPassword) {
 		return res
 			.status(400)
 			.send({ ok: false, message: 'Credentials are incorrect' });
-
+	}
 	// CREATE AND ASSIGN JWT ACCESS TOKEN & REFRESH TOKEN
 	const accessToken = jwt.sign({ id: user.id }, process.env.SECRET_TOKEN, {
 		expiresIn: '900s',
