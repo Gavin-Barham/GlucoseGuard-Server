@@ -142,7 +142,7 @@ const handleRefreshToken = async (req: Request, res: Response) => {
 		);
 		res.header('auth-token', accessToken).send({
 			ok: true,
-			message: 'OK',
+			message: 'Success',
 			accessToken: accessToken,
 			userId: user.id,
 		});

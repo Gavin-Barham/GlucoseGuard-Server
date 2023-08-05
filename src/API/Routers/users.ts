@@ -1,5 +1,4 @@
 import express, { Router } from 'express';
-// import { validateJTW } from '../Middleware/validateJWT.js';
 
 const router: Router = express.Router();
 
@@ -15,4 +14,4 @@ router.get('/:id', getUserById);
 router.put('/:id', updateUserById);
 router.delete('/:id', deleteUserById);
 
-export { router as users };
+export { router as usersRouters };

@@ -1,12 +1,12 @@
-import express, { Express } from 'express';
+import express, { Express, NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
-import home from './API/Routers/homeRouter.js';
 import { DBConnection } from './Database/config.js';
-import { authn } from './API/Routers/authn.js';
-import { users } from './API/Routers/users.js';
-import { dates } from './API/Routers/dates.js';
+import { authnRouters } from './API/Routers/authn.js';
+import { usersRouters } from './API/Routers/users.js';
+import { datesRouters } from './API/Routers/dates.js';
+import { validateJTW } from './API/Middleware/validateJWT.js';
 
 const App: Express = express();
 const PORT: number | string = process.env.PORT || 3030;
@@ -14,7 +14,7 @@ const PORT: number | string = process.env.PORT || 3030;
 App.use(cors());
 App.use(bodyParser.json());
 App.use(bodyParser.urlencoded({ extended: true }));
-App.use((req, res, next) => {
+App.use((req: Request, res: Response, next: NextFunction) => {
 	res.header('Access-Control-Allow-Origin', '*');
 	res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
 	res.header(
@@ -35,10 +35,9 @@ App.use(cookieParser());
 	}
 })();
 
-App.use('/', home);
-App.use('/authn', authn);
-App.use('/users', users);
-App.use('/dates', dates);
+App.use('/authn', authnRouters);
+App.use('/users', validateJTW, usersRouters);
+App.use('/', validateJTW, datesRouters);
 
 App.listen(PORT, () => {
 	console.log(
