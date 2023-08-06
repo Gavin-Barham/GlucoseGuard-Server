@@ -4,6 +4,17 @@ import { MEDICAL } from '../Database/Models/Medical.js';
 import { NUTRITION } from '../Database/Models/Nutrition.js';
 import { EXERCISE } from '../Database/Models/Exercise.js';
 interface DatesAttributes {
+	id: number;
+	userId: number;
+	date: Date;
+	medicalId?: number;
+	nutritionId?: number;
+	exerciseId?: number;
+	medical?: MEDICAL;
+	nutrition?: NUTRITION;
+	exercise?: EXERCISE;
+}
+interface DatesUpdateAttributes {
 	id?: number;
 	userId?: number;
 	date?: Date;
@@ -24,4 +35,4 @@ declare type DatesCreationAttributes = Optional<
 	| 'exercise'
 >;
 
-export { DatesAttributes, DatesCreationAttributes };
+export { DatesAttributes, DatesCreationAttributes, DatesUpdateAttributes };

@@ -32,7 +32,7 @@ const getUserById = async (req: Request, res: Response) => {
 		console.error(err.message);
 		return res.status(500).send({
 			ok: false,
-			message: 'Error occured with database (find user)',
+			message: err.message,
 		});
 	}
 };
@@ -48,45 +48,37 @@ const updateUserById = async (req: Request, res: Response) => {
 				.status(404)
 				.json({ ok: false, message: 'user not found' });
 		}
-		try {
-			const updatedUserRow = await USERS.update(
-				{
-					fname: updatedUser.fname || user.fname,
-					lname: updatedUser.lname || user.lname,
-					email: updatedUser.email || user.email,
-					password: updatedUser.password || user.password,
-					height: updatedUser.height || user.height,
-					targetCal: updatedUser.targetCal || user.targetCal,
+		const updatedUserRow = await USERS.update(
+			{
+				fname: updatedUser.fname || user.fname,
+				lname: updatedUser.lname || user.lname,
+				email: updatedUser.email || user.email,
+				password: updatedUser.password || user.password,
+				height: updatedUser.height || user.height,
+				targetCal: updatedUser.targetCal || user.targetCal,
+			},
+			{
+				where: {
+					id: id,
 				},
-				{
-					where: {
-						id: id,
-					},
-				},
-			);
-			if (!updatedUserRow) {
-				res.status(500).json({
-					ok: false,
-					message: 'unable to update user',
-				});
-			} else {
-				res.status(200).json({
-					ok: true,
-					message: 'user updated successfully',
-				});
-			}
-		} catch (err) {
-			console.error(err.message);
-			return res.status(500).send({
+			},
+		);
+		if (!updatedUserRow) {
+			res.status(500).json({
 				ok: false,
-				message: 'Error occured with database(update)',
+				message: 'unable to update user',
+			});
+		} else {
+			res.status(200).json({
+				ok: true,
+				message: 'user updated successfully',
 			});
 		}
 	} catch (err) {
 		console.error(err.message);
 		return res.status(500).send({
 			ok: false,
-			message: 'Error occured with database(find user)',
+			message: err.message,
 		});
 	}
 };
@@ -118,7 +110,7 @@ const deleteUserById = async (req: Request, res: Response) => {
 		console.error(err.message);
 		return res.status(500).json({
 			ok: false,
-			message: 'Error occured with database (find user)',
+			message: err.message,
 		});
 	}
 };

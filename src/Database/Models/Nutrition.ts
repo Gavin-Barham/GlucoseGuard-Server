@@ -6,6 +6,7 @@ import {
 	Column,
 	ForeignKey,
 	AllowNull,
+	Is,
 } from 'sequelize-typescript';
 import { DBConnection } from '../config.js';
 
@@ -25,22 +26,62 @@ class NUTRITION extends Model<
 	NutritionCreationAttributes
 > {
 	@ForeignKey(() => DATES)
+	@Is('dateId', (value) => {
+		if (typeof value !== typeof new Date()) {
+			throw new Error(
+				`Invalid dateId value: {${value}} is not of type number`,
+			);
+		}
+	})
 	@Column(DataTypes.INTEGER)
 	dateId: number;
 
 	@AllowNull
+	@Is('breakfast', (value) => {
+		const meal: Meal = { cal: 1, time: '00:00:00', food: 'burger' };
+		if (typeof value !== typeof meal) {
+			throw new Error(
+				`Invalid breakfast value: {${value}} is not of type Meal`,
+			);
+		}
+	})
 	@Column(DataTypes.JSON)
 	breakfast?: Meal;
 
 	@AllowNull
+	@Is('lunch', (value) => {
+		const meal: Meal = { cal: 1, time: '00:00:00', food: 'burger' };
+		if (typeof value !== typeof meal) {
+			throw new Error(
+				`Invalid lunch value: {${value}} is not of type Meal`,
+			);
+		}
+	})
 	@Column(DataTypes.JSON)
 	lunch?: Meal;
 
 	@AllowNull
+	@Is('dinner', (value) => {
+		const meal: Meal = { cal: 1, time: '00:00:00', food: 'burger' };
+		if (typeof value !== typeof meal) {
+			throw new Error(
+				`Invalid dinner value: {${value}} is not of type Meal`,
+			);
+		}
+	})
 	@Column(DataTypes.JSON)
 	dinner?: Meal;
 
 	@AllowNull
+	@Is('snacks', (value) => {
+		const meal: Meal = { cal: 1, time: '00:00:00', food: 'burger' };
+		const mealArr: Meal[] = [meal, meal, meal];
+		if (typeof value !== typeof mealArr) {
+			throw new Error(
+				`Invalid snacks value: {${value}} is not of type Meal[]`,
+			);
+		}
+	})
 	@Column(DataTypes.JSON)
 	snacks?: Meal[];
 }

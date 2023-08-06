@@ -2,6 +2,15 @@
 import { Optional } from 'sequelize';
 
 interface MedicalAttributes {
+	id: number;
+	dateId: number;
+	oxygen?: string;
+	heartRate?: number[];
+	bloodPressure?: BloodPressure;
+	bloodGlucose?: number[];
+	medication?: Medication;
+}
+interface MedicalUpdateAttributes {
 	id?: number;
 	dateId?: number;
 	oxygen?: string;
@@ -29,6 +38,7 @@ declare type BloodPressure = BloodPressureReading[];
 export {
 	MedicalAttributes,
 	MedicalCreationAttributes,
+	MedicalUpdateAttributes,
 	Medication,
 	BloodPressure,
 };

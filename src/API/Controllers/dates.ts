@@ -8,9 +8,9 @@ import { NUTRITION } from '../../Database/Models/Nutrition.js';
 import { EXERCISE } from '../../Database/Models/Exercise.js';
 // TYPES
 import { DatesCreationAttributes } from '../../Types/dates.js';
-import { MedicalAttributes } from '../../Types/medical.js';
-import { NutritionAttributes } from '../../Types/nutrition.js';
-import { ExerciseAttributes } from '../../Types/exercise.js';
+import { MedicalUpdateAttributes } from '../../Types/medical.js';
+import { NutritionUpdateAttributes } from '../../Types/nutrition.js';
+import { ExerciseUpdateAttributes } from '../../Types/exercise.js';
 // HELPER FUNCTIONS
 import {
 	setMedicalFields,
@@ -401,7 +401,7 @@ const handleUpdateMedical = async (req: Request, res: Response) => {
 				.status(404)
 				.send({ ok: false, message: 'Day not found' });
 		}
-		const updatedFields: MedicalAttributes = setMedicalFields(
+		const updatedFields: MedicalUpdateAttributes = setMedicalFields(
 			medicalId,
 			updateReq,
 		);
@@ -417,7 +417,7 @@ const handleUpdateMedical = async (req: Request, res: Response) => {
 		console.error(err.message);
 		return res.status(500).send({
 			ok: false,
-			message: 'Error occured with Database(get single day)',
+			message: err.message,
 		});
 	}
 };
@@ -444,7 +444,7 @@ const handleUpdateNutrition = async (req: Request, res: Response) => {
 				.status(404)
 				.send({ ok: false, message: 'Day not found' });
 		}
-		const updatedFields: NutritionAttributes = setNutritionFields(
+		const updatedFields: NutritionUpdateAttributes = setNutritionFields(
 			nutritionId,
 			updateReq,
 		);
@@ -460,7 +460,7 @@ const handleUpdateNutrition = async (req: Request, res: Response) => {
 		console.error(err.message);
 		return res.status(500).send({
 			ok: false,
-			message: 'Error occured with Database(get single day)',
+			message: err.message,
 		});
 	}
 };
@@ -487,7 +487,7 @@ const handleUpdateExercise = async (req: Request, res: Response) => {
 				.status(404)
 				.send({ ok: false, message: 'Day not found' });
 		}
-		const updatedFields: ExerciseAttributes = setExerciseFields(
+		const updatedFields: ExerciseUpdateAttributes = setExerciseFields(
 			exerciseId,
 			updateReq,
 		);
@@ -503,7 +503,7 @@ const handleUpdateExercise = async (req: Request, res: Response) => {
 		console.error(err.message);
 		return res.status(500).send({
 			ok: false,
-			message: 'Error occured with Database(get single day)',
+			message: err.message,
 		});
 	}
 };

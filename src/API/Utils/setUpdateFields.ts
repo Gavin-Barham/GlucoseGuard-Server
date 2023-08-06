@@ -1,9 +1,9 @@
-import { ExerciseAttributes } from '../../Types/exercise.js';
-import { MedicalAttributes } from '../../Types/medical.js';
-import { NutritionAttributes } from '../../Types/nutrition.js';
+import { ExerciseUpdateAttributes } from '../../Types/exercise.js';
+import { MedicalUpdateAttributes } from '../../Types/medical.js';
+import { NutritionUpdateAttributes } from '../../Types/nutrition.js';
 
-function setNutritionFields(reqObj, dbRowObj): NutritionAttributes {
-	const nutritionFields: NutritionAttributes = {
+function setNutritionFields(reqObj, dbRowObj): NutritionUpdateAttributes {
+	const nutritionFields: NutritionUpdateAttributes = {
 		breakfast: reqObj.breakfast || dbRowObj.breakfast,
 		lunch: reqObj.lunch || dbRowObj.lunch,
 		dinner: reqObj.dinner || dbRowObj.dinner,
@@ -12,8 +12,8 @@ function setNutritionFields(reqObj, dbRowObj): NutritionAttributes {
 	return nutritionFields;
 }
 
-const setMedicalFields = (reqObj, dbRowObj): MedicalAttributes => {
-	const medicalFields: MedicalAttributes = {
+const setMedicalFields = (reqObj, dbRowObj): MedicalUpdateAttributes => {
+	const medicalFields: MedicalUpdateAttributes = {
 		oxygen: reqObj.oxygen || dbRowObj.oxygen,
 		heartRate: reqObj.heartRate || dbRowObj.heartRate,
 		bloodPressure: reqObj.bloodPressure || dbRowObj.bloodPressure,
@@ -23,8 +23,8 @@ const setMedicalFields = (reqObj, dbRowObj): MedicalAttributes => {
 	return medicalFields;
 };
 
-const setExerciseFields = (reqObj, dbRowObj): ExerciseAttributes => {
-	const exerciseFields: ExerciseAttributes = {
+const setExerciseFields = (reqObj, dbRowObj): ExerciseUpdateAttributes => {
+	const exerciseFields: ExerciseUpdateAttributes = {
 		weight: reqObj.weight || dbRowObj.weight,
 		dailySteps: reqObj.dailySteps || dbRowObj.dailySteps,
 		miles: reqObj.miles || dbRowObj.miles,

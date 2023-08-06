@@ -2,6 +2,14 @@
 import { Optional } from 'sequelize';
 
 interface NutritionAttributes {
+	id: number;
+	dateId: number;
+	breakfast?: Meal;
+	lunch?: Meal;
+	dinner?: Meal;
+	snacks?: Meal[];
+}
+interface NutritionUpdateAttributes {
 	id?: number;
 	dateId?: number;
 	breakfast?: Meal;
@@ -16,8 +24,13 @@ declare type NutritionCreationAttributes = Optional<
 
 declare type Meal = {
 	cal: number;
-	time: number;
+	time: string;
 	food: string;
 };
 
-export { NutritionAttributes, NutritionCreationAttributes, Meal };
+export {
+	NutritionAttributes,
+	NutritionCreationAttributes,
+	NutritionUpdateAttributes,
+	Meal,
+};

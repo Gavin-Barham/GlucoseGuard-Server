@@ -7,7 +7,7 @@ interface UserAttributes {
 	fname?: string;
 	lname?: string;
 	height?: number;
-	targetCal?: string;
+	targetCal?: number;
 	refreshToken?: string;
 }
 declare type UserCreationAttributes = Optional<

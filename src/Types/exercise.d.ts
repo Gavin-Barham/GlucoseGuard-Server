@@ -2,6 +2,15 @@
 import { Optional } from 'sequelize';
 
 interface ExerciseAttributes {
+	id: number;
+	dateId: number;
+	weight?: number;
+	dailySteps?: number;
+	miles?: number;
+	calsBurned?: number;
+	sleep?: Sleep;
+}
+interface ExerciseUpdateAttributes {
 	id?: number;
 	dateId?: number;
 	weight?: number;
@@ -17,4 +26,11 @@ declare type ExerciseCreationAttributes = Optional<
 declare type Sleep = {
 	morning: string;
 	night: string;
+};
+
+export {
+	ExerciseAttributes,
+	ExerciseCreationAttributes,
+	ExerciseUpdateAttributes,
+	Sleep,
 };
