@@ -1,6 +1,6 @@
 {
   "name": "health-tracker-server-ts",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A type safe express sever for health-tracker application",
   "main": "./dist/index.js",
   "type": "module",
