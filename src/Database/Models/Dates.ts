@@ -7,7 +7,6 @@ import {
 	ForeignKey,
 	HasOne,
 	AllowNull,
-	Is,
 } from 'sequelize-typescript';
 import { DBConnection } from '../config.js';
 
@@ -23,13 +22,6 @@ import { DatesAttributes, DatesCreationAttributes } from '../../Types/dates.js';
 @Table
 class DATES extends Model<DatesAttributes, DatesCreationAttributes> {
 	@AllowNull(false)
-	@Is('date', (value) => {
-		if (typeof value !== typeof new Date()) {
-			throw new Error(
-				`Invalid date value: {${value}} is not of type Date`,
-			);
-		}
-	})
 	@Column(DataTypes.DATE)
 	date: Date;
 

@@ -26,23 +26,18 @@ class NUTRITION extends Model<
 	NutritionCreationAttributes
 > {
 	@ForeignKey(() => DATES)
-	@Is('dateId', (value) => {
-		if (typeof value !== typeof new Date()) {
-			throw new Error(
-				`Invalid dateId value: {${value}} is not of type number`,
-			);
-		}
-	})
 	@Column(DataTypes.INTEGER)
 	dateId: number;
 
 	@AllowNull
 	@Is('breakfast', (value) => {
 		const meal: Meal = { cal: 1, time: '00:00:00', food: 'burger' };
-		if (typeof value !== typeof meal) {
-			throw new Error(
-				`Invalid breakfast value: {${value}} is not of type Meal`,
-			);
+		if (value !== undefined) {
+			if (typeof value !== typeof meal) {
+				throw new Error(
+					`Invalid breakfast value: {${value}} is not of type Meal`,
+				);
+			}
 		}
 	})
 	@Column(DataTypes.JSON)
@@ -51,10 +46,12 @@ class NUTRITION extends Model<
 	@AllowNull
 	@Is('lunch', (value) => {
 		const meal: Meal = { cal: 1, time: '00:00:00', food: 'burger' };
-		if (typeof value !== typeof meal) {
-			throw new Error(
-				`Invalid lunch value: {${value}} is not of type Meal`,
-			);
+		if (value !== undefined) {
+			if (typeof value !== typeof meal) {
+				throw new Error(
+					`Invalid lunch value: {${value}} is not of type Meal`,
+				);
+			}
 		}
 	})
 	@Column(DataTypes.JSON)
@@ -63,10 +60,12 @@ class NUTRITION extends Model<
 	@AllowNull
 	@Is('dinner', (value) => {
 		const meal: Meal = { cal: 1, time: '00:00:00', food: 'burger' };
-		if (typeof value !== typeof meal) {
-			throw new Error(
-				`Invalid dinner value: {${value}} is not of type Meal`,
-			);
+		if (value !== undefined) {
+			if (typeof value !== typeof meal) {
+				throw new Error(
+					`Invalid dinner value: {${value}} is not of type Meal`,
+				);
+			}
 		}
 	})
 	@Column(DataTypes.JSON)
@@ -76,10 +75,12 @@ class NUTRITION extends Model<
 	@Is('snacks', (value) => {
 		const meal: Meal = { cal: 1, time: '00:00:00', food: 'burger' };
 		const mealArr: Meal[] = [meal, meal, meal];
-		if (typeof value !== typeof mealArr) {
-			throw new Error(
-				`Invalid snacks value: {${value}} is not of type Meal[]`,
-			);
+		if (value !== undefined) {
+			if (typeof value !== typeof mealArr) {
+				throw new Error(
+					`Invalid snacks value: {${value}} is not of type Meal[]`,
+				);
+			}
 		}
 	})
 	@Column(DataTypes.JSON)
