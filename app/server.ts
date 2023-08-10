@@ -13,7 +13,7 @@ import { validateJTW } from './API/Middleware/validateJWT.js';
 
 const App: Express = express();
 const PORT: number | string = process.env.PORT || 3000;
-const HTTPS_PORT: number | string = process.env.HTTPS_PORT || 8000;
+const HTTPS_PORT: number | string = process.env.HTTPS_PORT || 8443;
 const credentials = {
 	key: fs.readFileSync('/app/key.pem', 'utf-8'),
 	cert: fs.readFileSync('/app/cert.pem', 'utf-8'),
