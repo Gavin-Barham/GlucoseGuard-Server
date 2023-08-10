@@ -52,11 +52,11 @@ const httpsServer = https.createServer(credentials, App);
 
 httpServer.listen(PORT, () => {
 	console.log(
-		`listening on port: ${PORT}\n    live at: (http://localhost:${PORT})`,
+		`http server listening on port: ${PORT}\n    live at: (http://localhost:${PORT})`,
 	);
 });
 httpsServer.listen(HTTPS_PORT, () => {
 	console.log(
-		`listening on port: ${HTTPS_PORT}\n    live at: (https://localhost:${HTTPS_PORT})`,
+		`https server listening on port: ${HTTPS_PORT}\n    live at: (https://localhost:${HTTPS_PORT})`,
 	);
 });
