@@ -8,6 +8,10 @@ COPY . .
 
 RUN npm run build
 
-EXPOSE 3030
+COPY key.pem /app/key.pem
+COPY cert.pem /app/cert.pem
+
+EXPOSE 3000
+EXPOSE 8000
 
 CMD ["npm", "start"]

@@ -20,7 +20,6 @@ import {
 	Sleep,
 } from '../../Types/exercise.js';
 
-const allowedTypes = ['string', undefined].map((val) => typeof val);
 @Table
 class EXERCISE extends Model<ExerciseAttributes, ExerciseCreationAttributes> {
 	@ForeignKey(() => DATES)
@@ -46,7 +45,7 @@ class EXERCISE extends Model<ExerciseAttributes, ExerciseCreationAttributes> {
 	@AllowNull
 	@Is('sleep', (value) => {
 		if (value !== undefined) {
-			if (!allowedTypes.includes(typeof value.day)) {
+			if (!value.wake && !value.sleep) {
 				throw new Error(
 					`Invalid sleep value: {${value}} is not of type Sleep`,
 				);

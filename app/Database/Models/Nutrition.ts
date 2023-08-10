@@ -31,9 +31,8 @@ class NUTRITION extends Model<
 
 	@AllowNull
 	@Is('breakfast', (value) => {
-		const meal: Meal = { cal: 1, time: '00:00:00', food: 'burger' };
 		if (value !== undefined) {
-			if (typeof value !== typeof meal) {
+			if (!value.food || !value.calories) {
 				throw new Error(
 					`Invalid breakfast value: {${value}} is not of type Meal`,
 				);
@@ -45,11 +44,10 @@ class NUTRITION extends Model<
 
 	@AllowNull
 	@Is('lunch', (value) => {
-		const meal: Meal = { cal: 1, time: '00:00:00', food: 'burger' };
 		if (value !== undefined) {
-			if (typeof value !== typeof meal) {
+			if (!value.food || !value.calories) {
 				throw new Error(
-					`Invalid lunch value: {${value}} is not of type Meal`,
+					`Invalid breakfast value: {${value}} is not of type Meal`,
 				);
 			}
 		}
@@ -59,11 +57,10 @@ class NUTRITION extends Model<
 
 	@AllowNull
 	@Is('dinner', (value) => {
-		const meal: Meal = { cal: 1, time: '00:00:00', food: 'burger' };
 		if (value !== undefined) {
-			if (typeof value !== typeof meal) {
+			if (!value.food || !value.calories) {
 				throw new Error(
-					`Invalid dinner value: {${value}} is not of type Meal`,
+					`Invalid breakfast value: {${value}} is not of type Meal`,
 				);
 			}
 		}
@@ -73,12 +70,10 @@ class NUTRITION extends Model<
 
 	@AllowNull
 	@Is('snacks', (value) => {
-		const meal: Meal = { cal: 1, time: '00:00:00', food: 'burger' };
-		const mealArr: Meal[] = [meal, meal, meal];
 		if (value !== undefined) {
-			if (typeof value !== typeof mealArr) {
+			if (!value[0].food || !value[0].calories) {
 				throw new Error(
-					`Invalid snacks value: {${value}} is not of type Meal[]`,
+					`Invalid breakfast value: {${value}} is not of type Meal`,
 				);
 			}
 		}

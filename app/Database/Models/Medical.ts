@@ -30,7 +30,7 @@ class MEDICAL extends Model<MedicalAttributes, MedicalCreationAttributes> {
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const bloodPressure: BloodPressure = [{ sys: 1, dias: 1 }];
 		if (value !== undefined) {
-			if (typeof bloodPressure !== typeof value) {
+			if (!value.sys || !value.dias) {
 				throw new Error(
 					`Invalid value:${value} not of type BloodPressure`,
 				);
@@ -54,9 +54,8 @@ class MEDICAL extends Model<MedicalAttributes, MedicalCreationAttributes> {
 	bloodGlucose?: number[];
 
 	@Is('medication', (value) => {
-		const medication: Medication = { morning: true, night: false };
 		if (value !== undefined) {
-			if (typeof value !== typeof medication) {
+			if (!value.morning && !value.night) {
 				throw new Error(
 					`Invalid medication value: {${value}} is not of type Medication`,
 				);
