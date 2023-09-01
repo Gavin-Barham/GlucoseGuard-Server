@@ -1,3 +1,5 @@
 node_modules
 .gitignore
 example.env
+*.node_modules
+.vscode

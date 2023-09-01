@@ -1,4 +1,4 @@
-FROM node:16
+FROM node:16-alpine3.17
 
 COPY package*.json ./
 
@@ -11,7 +11,8 @@ RUN npm run build
 COPY key.pem /app/key.pem
 COPY cert.pem /app/cert.pem
 
-EXPOSE 3000
-EXPOSE 8000
+EXPOSE 80
+EXPOSE 443
+EXPOSE 5050
 
 CMD ["npm", "start"]

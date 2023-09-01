@@ -9,8 +9,9 @@ services:
       - .env
     ports:
       - "80:3000"
-      - "443:8443"
       - "3000:3000"
+      - "443:8443"
+      - "8443:8443"
     depends_on:
       - ht-db
 
@@ -22,7 +23,16 @@ services:
     env_file:
       - .env
     volumes:
-      - node_db_data:/vars/postgresql/data
+      - db_data:/var/lib/postgresql/data
+
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - 5050:5050
 
 volumes:
-  node_db_data: {}
+  db_data:
