@@ -97,20 +97,22 @@ const handleLogin = async (req: Request, res: Response) => {
 			httpOnly: true,
 			maxAge: 7 * 24 * 60 * 60 * 1000,
 		});
-		res.header('auth-token', accessToken).status(200).send({
-			ok: true,
-			message: 'Success',
-			accessToken: accessToken,
-			user: {
-				id: user.id,
-				name: {
-					first: user.fname,
-					last: user.lname
+		res.header('auth-token', accessToken)
+			.status(200)
+			.send({
+				ok: true,
+				message: 'Success',
+				accessToken: accessToken,
+				user: {
+					id: user.id,
+					name: {
+						first: user.fname,
+						last: user.lname,
+					},
+					height: user.height,
+					targetCalories: user.targetCal,
 				},
-				height: user.height,
-				targetCalories: user.targetCal
-			}
-		});
+			});
 	} catch (err) {
 		console.log(err);
 		res.status(500).send({ ok: false, message: 'Internal server error' });
