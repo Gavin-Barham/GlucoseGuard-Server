@@ -101,7 +101,15 @@ const handleLogin = async (req: Request, res: Response) => {
 			ok: true,
 			message: 'Success',
 			accessToken: accessToken,
-			userId: user.id,
+			user: {
+				id: user.id,
+				name: {
+					first: user.fname,
+					last: user.lname
+				},
+				height: user.height,
+				targetCalories: user.targetCal
+			}
 		});
 	} catch (err) {
 		console.log(err);
