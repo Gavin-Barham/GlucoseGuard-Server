@@ -8,9 +8,6 @@ COPY . .
 
 RUN npm run build
 
-COPY key.pem /app/key.pem
-COPY cert.pem /app/cert.pem
-
 EXPOSE 80
 EXPOSE 443
 EXPOSE 5050
