@@ -26,11 +26,10 @@ services:
   pgadmin:
     container_name: pgadmin_container
     image: dpage/pgadmin4
-    restart: always
     env_file:
       - .env
     ports:
-      - 5050:5050
+      - "5050:5050"
 
   nginx:
     image: nginx:1.15-alpine

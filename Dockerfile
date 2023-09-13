@@ -1,6 +1,8 @@
 FROM node:16-alpine3.17
 
-COPY package*.json ./
+WORKDIR /ht-server-app
+
+COPY package.json .
 
 RUN npm install
 
@@ -8,8 +10,9 @@ COPY . .
 
 RUN npm run build
 
-EXPOSE 80
-EXPOSE 443
-EXPOSE 5050
+COPY . .
+
+EXPOSE 3000
+EXPOSE 8443
 
 CMD ["npm", "start"]
