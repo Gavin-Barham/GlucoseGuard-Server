@@ -53,3 +53,7 @@ volumes:
   db_data:
   data:
     driver: local
+
+networks:
+  app-network:
+    driver: bridge
