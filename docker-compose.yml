@@ -13,6 +13,8 @@ services:
       - "8443:8443"
     depends_on:
       - ht-db
+    networks:
+      - app-network
 
   ht-db:
     container_name: ht-db
@@ -23,6 +25,8 @@ services:
       - .env
     volumes:
       - db_data:/var/lib/postgresql/data
+    networks:
+      - app-network
 
   pgadmin:
     container_name: pgadmin_container
@@ -38,6 +42,10 @@ services:
       - "80:80"
       - "443:443"
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+    networks:
+      - app-network
+    depends_on:
+      - ht-server
     volumes:
       - ./data/nginx:/etc/nginx/conf.d
       - ./data/certbot/conf:/etc/letsencrypt
@@ -49,6 +57,9 @@ services:
     volumes:
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
+    networks:
+      - app-network
+
 
 volumes:
   db_data:
