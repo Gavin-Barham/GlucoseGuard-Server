@@ -8,6 +8,7 @@ import { authnRouters } from './API/Routers/authn.js';
 import { usersRouters } from './API/Routers/users.js';
 import { datesRouters } from './API/Routers/dates.js';
 import { validateJTW } from './API/Middleware/validateJWT.js';
+import * as fs from 'fs';
 
 const App: Express = express();
 const PORT: number | string = process.env.PORT || 3000;
@@ -35,7 +36,10 @@ App.use(cookieParser());
 		console.error('Unable to connect to the database:', err.message);
 	}
 })();
-
+const file = await fs.readFile('./index.html', 'utf-8', () =>
+	console.error('Error reading'),
+);
+App.use('/docs', async (req, res) => res.send(file));
 App.use('/authn', authnRouters);
 App.use('/users', validateJTW, usersRouters);
 App.use('/', validateJTW, datesRouters);
