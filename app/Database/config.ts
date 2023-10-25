@@ -3,11 +3,11 @@ import { Dialect } from 'sequelize';
 import path from 'path';
 
 const DBConnection = new Sequelize(
-	process.env.DB || '',
-	process.env.DB_USER || '',
-	process.env.DB_PASS || '',
+	process.env.POSTGRES_DB || '',
+	process.env.POSTGRES_USER || '',
+	process.env.POSTGRES_PASSWORD || '',
 	{
-		host: process.env.DB_HOST || '',
+		host: process.env.POSTGRES_HOST || '',
 		models: [path.dirname + '/Models'],
 		dialect: 'postgres' as Dialect,
 	},
