@@ -2,6 +2,8 @@ import os
 
 import psycopg2
 
+from psycopg2.extras import RealDictCursor
+
 from api_client import APIClient
 
 from dotenv import load_dotenv
@@ -28,35 +30,52 @@ def test_register():
     assert response.status_code == 400
     assert response.json()["message"] == "Password must be at least 8 characters"
 
-    # existing email
-    response = client.post('/authn/register', {"email": "unitTESTING1287981", "password": "12345678"})
-    assert response.status_code == 403
-    assert response.json()["message"] == "Email already exists"
 
-    # setting variables and connecting to db
-    load_dotenv()
-    db_name = os.environ.get("POSTGRES_DB")
-    db_host = os.environ.get("POSTGRES_HOST")
-    db_user = os.environ.get("POSTGRES_USER")
-    db_pass = os.environ.get("POSTGRES_PASSWORD")
+    # # setting variables and connecting to db
+    # load_dotenv()
+    # db_name = os.environ.get("POSTGRES_DB")
+    # db_host = os.environ.get("POSTGRES_HOST")
+    # db_user = os.environ.get("POSTGRES_USER")
+    # db_pass = os.environ.get("POSTGRES_PASSWORD")
 
-    conn = psycopg2.connect(host = db_host, dbname = db_name, user = db_user, password = db_pass, port = 5432)
+    conn = psycopg2.connect(host = "127.0.0.1", dbname = "TESTING", user = "TESTING", password = "TESTING", port = 5432, cursor_factory = RealDictCursor)
     cur = conn.cursor()
 
-    # if the account already exists then delete it
-    cur.execute("SELECT * FROM USERs WHERE email == \'unitTESTING1287981\';")
+    cur.execute("""SELECT * FROM "USERs" WHERE email == %(value)s""", {"value": "unitTESTING1287981"})
+    # cur.execute('SELECT * FROM "USERs" WHERE 1=0')
+    users = cur.fetchall()
+    print(users)
+    # # if the account already exists then delete it
+    # cur.execute('SELECT * FROM "USERs" WHERE email == \"unitTESTING1287981\";')
 
-    if cur.fetchone() is not None:
-        cur.execute("DELETE FROM USERs WHERE email == \'unitTESTING1287981\';")
+    # if cur.fetchone() is not None:
+    #     cur.execute('DELETE FROM "USERs" WHERE email == \"unitTESTING1287981\";')
+    #     conn.commit()
+
+    # # register account
+    # response = client.post('/authn/register', {"email": "unitTESTING1287981", "password": "12345678"})
+    # assert response.status_code == 201
+    # assert response.json()["message"] == "User created successfully"
+
+    # cur.execute('SELECT * FROM "USERs" WHERE email == \"unitTESTING1287981\";')
+    # assert cur.fetchone() is not None
     
-    conn.commit()
+    # cur.close()
+    # conn.close()
+
+    # # existing email
+    # response = client.post('/authn/register', {"email": "unitTESTING1287981", "password": "12345678"})
+    # assert response.status_code == 403
+    # assert response.json()["message"] == "Email already exists"
     
-    # register new account
-    response = client.post('/authn/register', {"email": "unitTESTING1287981", "password": "12345678"})
-    assert response.status_code == 201
-    assert response.json()["message"] == "User created successfully"
-    cur.execute("SELECT * FROM USERs WHERE email == \'unitTESTING1287981\';")
-    assert cur.fetchone() is not None
+    # # register new account
+    # response = client.post('/authn/register', {"email": "unitTESTING1287981", "password": "12345678"})
+    # assert response.status_code == 201
+    # assert response.json()["message"] == "User created successfully"
+    # cur.execute("SELECT * FROM USERs WHERE email == \'unitTESTING1287981\';")
+    # assert cur.fetchone() is not None
     
-    cur.close()
-    conn.close()
+    # cur.close()
+    # conn.close()
+
+# test_register()

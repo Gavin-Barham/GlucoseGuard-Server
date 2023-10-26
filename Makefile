@@ -1,4 +1,3 @@
-include .env
 VENV = . unit-testing/test/bin/activate
 
 install-docker:
@@ -10,6 +9,7 @@ install-docker:
 	sudo apt install -y docker-ce
 	sudo usermod -aG docker ${USER}
 
+# prereq: must have python3 installed
 setup-venv:
 	# sudo apt-get update -y
 	sudo apt-get install -y python3-pip
@@ -17,25 +17,28 @@ setup-venv:
 	sudo apt-get update -y
 	pip install virtualenv
 	virtualenv -p python3 ./unit-testing/test
-	$(VENV) \
-	pip install pytest requests python-dotenv psycopg2-binary \
+	$(VENV) && \
+	pip install pytest requests python-dotenv psycopg2-binary && \
 	deactivate
 
 setup-db:
-	docker run postgres:12-apline --name ht-db -p 5432 -e POSTGRES_DB=${POSTGRES_DB} -e POSTGRES_HOST=${POSTGRES_HOST} -e POSTGRES_USER=${POSTGRES_USER} -e POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+	docker run --name ht-db -d -p 5432:5432 \
+	-e POSTGRES_DB=TESTING -e POSTGRES_HOST=localhost \
+	-e POSTGRES_USER=TESTING -e POSTGRES_PASSWORD=TESTING \
+	postgres:latest
+	docker stop ht-db
 
-setup-web-server:
+setup: setup-venv setup-db 
 	npm install
+
+start:
+	docker start ht-db
 	npm run dev
 
-setup:
-	setup-venv setup-db setup-web-server
-
-clean-up:
-	docker stop ht-db
-	docker rm ht-db
-
+# prereq: must start the web server before using this command
 run-test:
-	setup \
-	$(VENV) && pytest \
-	clean-up
+	$(VENV) && \
+	cd ./unit-testing && \
+	pytest && \
+	deactivate
+	# docker stop ht-db

@@ -1,7 +1,3 @@
-from dotenv import load_dotenv
-
-import os
-
 import json
 
 import requests
@@ -9,9 +5,7 @@ import requests
 
 class APIClient():
     def __init__(self):
-        load_dotenv()
-        port = os.environ.get("PORT")
-        self.baseURL = f"http://127.0.0.1:{port}"
+        self.baseURL = "http://127.0.0.1:3000"
 
     def post(self, endpoint, body_data):
         body_json = json.dumps(body_data)
