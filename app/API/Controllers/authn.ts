@@ -81,12 +81,20 @@ const handleLogin = async (req: Request, res: Response) => {
 			.send({ ok: false, message: 'Credentials are incorrect' });
 	}
 	// CREATE AND ASSIGN JWT ACCESS TOKEN & REFRESH TOKEN
-	const accessToken = jwt.sign({ id: user.id }, process.env.SECRET_TOKEN, {
-		expiresIn: '900s',
-	});
-	const refreshToken = jwt.sign({ id: user.id }, process.env.REFRESH_TOKEN, {
-		expiresIn: '7d',
-	});
+	const accessToken = jwt.sign(
+		{ id: user.id },
+		process.env.SECRET_TOKEN || 'TESTING',
+		{
+			expiresIn: '900s',
+		},
+	);
+	const refreshToken = jwt.sign(
+		{ id: user.id },
+		process.env.REFRESH_TOKEN || 'TESTING',
+		{
+			expiresIn: '7d',
+		},
+	);
 	try {
 		// ADD REFRESH TOKEN TO DATABASE
 		await USERS.update(
