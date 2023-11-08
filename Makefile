@@ -1,11 +1,17 @@
+include .env
+
 UNAME_S := $(shell uname -s)
 
-ifeq ($(UNAME_S), Linux)
+ifeq ($(UNAME_S),Linux)
 	VENV = . unit-testing/test/bin/activate
 endif
-ifeq ($(UNAME_S), Darwin)
+ifeq ($(UNAME_S),Darwin)
 	VENV = source ./unit-testing/test/bin/activate
 endif
+
+DB_NAME = $(if $(POSTGRES_DB),$(POSTGRES_DB),TESTING)
+DB_USER = $(if $(POSTGRES_USER),$(POSTGRES_USER),TESTING)
+DB_PASS = $(if $(POSTGRES_PASSWORD),$(POSTGRES_PASSWORD),TESTING)
 
 setup: setup-venv setup-db
 
@@ -13,7 +19,7 @@ start:
 	docker start ht-db
 	npm run dev
 
-# prereq: must run start command before using this command
+# prereq: must run start target before using this target
 run-test:
 	$(VENV) && \
 	cd ./unit-testing && \
@@ -22,7 +28,7 @@ run-test:
 
 # prereq: python3 installed
 setup-venv:
-ifeq ($(UNAME_S), Linux)
+ifeq ($(UNAME_S),Linux)
     # Ubuntu
 	sudo apt-get install python3-venv
 endif
@@ -32,13 +38,16 @@ endif
 	deactivate
 
 setup-db:
-	docker run --name ht-db -d -p 5432:5432 \
-	-e POSTGRES_DB=TESTING -e POSTGRES_HOST=localhost \
-	-e POSTGRES_USER=TESTING -e POSTGRES_PASSWORD=TESTING \
+	docker run --name ht-db -d -p 5432:5432 -e POSTGRES_HOST=localhost \
+	-e POSTGRES_DB=${DB_NAME} -e POSTGRES_USER=${DB_USER} -e POSTGRES_PASSWORD=${DB_PASS} \
 	postgres:latest
 	docker stop ht-db
 
-# after installing docker - log out account and log back in
+clean-up-db:
+	docker stop ht-db
+	docker rm ht-db
+
+# after running this target restart machine
 install-docker-ubuntu:
 	sudo apt update
 	sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
