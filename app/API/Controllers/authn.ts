@@ -83,14 +83,14 @@ const handleLogin = async (req: Request, res: Response) => {
 	// CREATE AND ASSIGN JWT ACCESS TOKEN & REFRESH TOKEN
 	const accessToken = jwt.sign(
 		{ id: user.id },
-		process.env.SECRET_TOKEN || 'TESTING',
+		process.env.SECRET_TOKEN || 'TESTING2',
 		{
 			expiresIn: '900s',
 		},
 	);
 	const refreshToken = jwt.sign(
 		{ id: user.id },
-		process.env.REFRESH_TOKEN || 'TESTING',
+		process.env.REFRESH_TOKEN || 'TESTING1',
 		{
 			expiresIn: '7d',
 		},
@@ -137,14 +137,17 @@ const handleRefreshToken = async (req: Request, res: Response) => {
 				.send({ ok: false, message: 'Could not find user' });
 
 		// VERIFY TOKEN
-		const match = jwt.verify(refreshToken, process.env.REFRESH_TOKEN);
+		const match = jwt.verify(
+			refreshToken,
+			process.env.REFRESH_TOKEN || 'TESTING1',
+		);
 		if (!match)
 			return res.status(403).send({ ok: false, message: 'Forbidden' });
 
 		// CREATE AND ASSIGN JWT ACCESS TOKEN
 		const accessToken = jwt.sign(
 			{ id: user.id },
-			process.env.SECRET_TOKEN,
+			process.env.SECRET_TOKEN || 'TESTING2',
 			{ expiresIn: '900s' },
 		);
 		res.header('auth-token', accessToken).send({

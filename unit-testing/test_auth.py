@@ -1,5 +1,7 @@
 import psycopg2
 
+import requests
+
 from psycopg2.extras import RealDictCursor
 
 from api_client import APIClient
@@ -90,3 +92,35 @@ def test_login():
     assert response.json()["message"] == "Success"
     assert response.json()["accessToken"] is not None
     assert response.json()["userId"] is not None
+
+# def test_refresh():
+#     # no cookies
+#     response = client.get('/authn/refresh', cookies = {})
+#     print(response.json())
+#     print()
+#     assert response.status_code == 401
+#     assert response.json()["message"] == "Unauthorized"
+
+#     # invalid cookies
+#     response = client.get('/authn/refresh', cookies = {"jwt": "abc"})
+#     print(response.json())
+#     print()
+#     assert response.status_code == 401
+#     assert response.json()["message"] == "Could not find user"
+
+#     # valid cookies
+#     with requests.Session() as session:
+#         response = session.post('http://localhost:3000/authn/login', {"email": testing_email, "password": testing_password})
+#         print("old access token: ", response.json())
+#         print()
+
+#         print("cookie: ", session.cookies)
+#         print()
+
+#         response2 = session.get('http://localhost:3000/authn/refresh')
+#         print("new access token: ", response2.json())
+#         # print("new access token: ", response2.json()["accessToken"])
+#         # assert response.status_code == 200
+#         # assert response.json()["message"] == "Success"
+#         # assert response.json()["userId"] == user_id
+#         # assert response.json()["accessToken"] != user_old_access_token

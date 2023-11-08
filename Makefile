@@ -1,23 +1,33 @@
-VENV = . unit-testing/test/bin/activate
+UNAME_S := $(shell uname -s)
 
-install-docker:
-	sudo apt update
-	sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
-	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-	echo "deb [arch=$$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $$(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-	sudo apt update
-	sudo apt install -y docker-ce
-	sudo usermod -aG docker ${USER}
+ifeq ($(UNAME_S), Linux)
+	VENV = . unit-testing/test/bin/activate
+endif
+ifeq ($(UNAME_S), Darwin)
+	VENV = source ./unit-testing/test/bin/activate
+endif
 
-# prereq: must have python3 installed
-setup-venv:
-	# sudo apt-get update -y
-	sudo apt-get install -y python3-pip
-	sudo apt-get install -y virtualenv
-	sudo apt-get update -y
-	pip install virtualenv
-	virtualenv -p python3 ./unit-testing/test
+setup: setup-venv setup-db
+
+start:
+	docker start ht-db
+	npm run dev
+
+# prereq: must run start command before using this command
+run-test:
 	$(VENV) && \
+	cd ./unit-testing && \
+	pytest && \
+	deactivate
+
+# prereq: python3 installed
+setup-venv:
+ifeq ($(UNAME_S), Linux)
+    # Ubuntu
+	sudo apt-get install python3-venv
+endif
+	python3 -m venv ./unit-testing/test
+	${VENV} && \
 	pip install pytest requests python-dotenv psycopg2-binary && \
 	deactivate
 
@@ -28,17 +38,12 @@ setup-db:
 	postgres:latest
 	docker stop ht-db
 
-setup: setup-venv setup-db 
-	npm install
-
-start:
-	docker start ht-db
-	npm run dev
-
-# prereq: must start the web server before using this command
-run-test:
-	$(VENV) && \
-	cd ./unit-testing && \
-	pytest && \
-	deactivate
-	# docker stop ht-db
+# after installing docker - log out account and log back in
+install-docker-ubuntu:
+	sudo apt update
+	sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
+	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+	echo "deb [arch=$$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $$(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+	sudo apt update
+	sudo apt install -y docker-ce
+	sudo usermod -aG docker ${USER}
