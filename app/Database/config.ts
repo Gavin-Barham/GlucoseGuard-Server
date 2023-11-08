@@ -7,7 +7,10 @@ const DBConnection = new Sequelize(
 	process.env.POSTGRES_USER || 'TESTING',
 	process.env.POSTGRES_PASSWORD || 'TESTING',
 	{
-		host: process.env.POSTGRES_HOST || '127.0.0.1',
+		host:
+			process.env.npm_lifecycle_event === 'testing'
+				? 'localhost'
+				: process.env.POSTGRES_HOST,
 		models: [path.dirname + '/Models'],
 		dialect: 'postgres' as Dialect,
 	},
