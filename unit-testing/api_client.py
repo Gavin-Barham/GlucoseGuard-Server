@@ -13,3 +13,8 @@ class APIClient():
         url = self.baseURL + endpoint
 
         return requests.post(url = url, data = body_json, headers = headers)
+
+    def get(self, endpoint, cookies = None):
+        url = self.baseURL + endpoint
+
+        return requests.get(url = url, cookies = cookies)
