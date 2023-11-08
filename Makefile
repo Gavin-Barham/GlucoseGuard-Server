@@ -17,7 +17,7 @@ setup: setup-venv setup-db
 
 start:
 	docker start ht-db
-	npm run dev
+	npm run testing
 
 # prereq: must run start target before using this target
 run-test:
