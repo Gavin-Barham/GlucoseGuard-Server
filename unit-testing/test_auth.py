@@ -1,88 +1,95 @@
+import requests
 from connect_db import connect_db
-from api_client import APIClient
-
-client = APIClient()
 
 testing_email = "unitTESTING@1287981"
 testing_password = "12345678"
 
 def test_register():
-    # fields
-    response = client.post('/authn/register', {"email": "", "password": ""})
-    assert response.status_code == 400
-    assert response.json()["message"] == "Please enter all fields"
+    base_url = "http://localhost:3000"
+    endpoint = '/authn/register'
 
-    response = client.post('/authn/register', {"email": "a", "password": ""})
-    assert response.status_code == 400
-    assert response.json()["message"] == "Please enter all fields"
+    with requests.Session() as session:
+        # fields
+        response = session.post(f'{base_url}{endpoint}', {"email": "", "password": ""})
+        assert response.status_code == 400
+        assert response.json()["message"] == "Please enter all fields"
 
-    response = client.post('/authn/register', {"email": "", "password": "a"})
-    assert response.status_code == 400
-    assert response.json()["message"] == "Please enter all fields"
+        response = session.post(f'{base_url}{endpoint}', {"email": "a", "password": ""})
+        assert response.status_code == 400
+        assert response.json()["message"] == "Please enter all fields"
 
-    # password not 8+ characters
-    response = client.post('/authn/register', {"email": testing_email, "password": "1"})
-    assert response.status_code == 400
-    assert response.json()["message"] == "Password must be at least 8 characters"
+        response = session.post(f'{base_url}{endpoint}', {"email": "", "password": "a"})
+        assert response.status_code == 400
+        assert response.json()["message"] == "Please enter all fields"
 
-    conn = connect_db()
-    cur = conn.cursor()
+        # password not 8+ characters
+        response = session.post(f'{base_url}{endpoint}', {"email": testing_email, "password": "1"})
+        assert response.status_code == 400
+        assert response.json()["message"] == "Password must be at least 8 characters"
 
-    # if the account already exists then delete it
-    cur.execute("""SELECT * FROM "USERs" WHERE email = %(value)s""", {"value": testing_email})
+        conn = connect_db()
+        cur = conn.cursor()
 
-    if cur.fetchone() is not None:
-        cur.execute("""DELETE FROM "USERs" WHERE email = %(value)s""", {"value": testing_email})
-        conn.commit()
+        # if the account already exists then delete it
+        cur.execute("""SELECT * FROM "USERs" WHERE email = %(value)s""", {"value": testing_email})
 
-    # register new account
-    response = client.post('/authn/register', {"email": testing_email, "password": testing_password})
-    assert response.status_code == 201
-    assert response.json()["message"] == "User created successfully"
+        if cur.fetchone() is not None:
+            cur.execute("""DELETE FROM "USERs" WHERE email = %(value)s""", {"value": testing_email})
+            conn.commit()
 
-    # verify account is created in db
-    cur.execute("""SELECT * FROM "USERs" WHERE email = %(value)s""", {"value": testing_email})
-    assert cur.fetchone() is not None
-    
-    # register account with existing email
-    response = client.post('/authn/register', {"email": testing_email, "password": testing_password})
-    assert response.status_code == 403
-    assert response.json()["message"] == "Email already exists"
-    
-    cur.close()
-    conn.close()
+        # register new account
+        response = session.post(f'{base_url}{endpoint}', {"email": testing_email, "password": testing_password})
+        assert response.status_code == 201
+        assert response.json()["message"] == "User created successfully"
+
+        # verify account is created in db
+        cur.execute("""SELECT * FROM "USERs" WHERE email = %(value)s""", {"value": testing_email})
+        assert cur.fetchone() is not None
+        
+        # register account with existing email
+        response = session.post(f'{base_url}{endpoint}', {"email": testing_email, "password": testing_password})
+        assert response.status_code == 403
+        assert response.json()["message"] == "Email already exists"
+        
+        cur.close()
+        conn.close()
 
 def test_login():
-    # fields
-    response = client.post('/authn/login', {"email": "", "password": ""})
-    assert response.status_code == 400
-    assert response.json()["message"] == "Invalid email"
+    base_url = "http://localhost:3000"
+    endpoint = "/authn/login"
 
-    response = client.post('/authn/login', {"email": "a", "password": ""})
-    assert response.status_code == 400
-    assert response.json()["message"] == "Invalid email"
+    with requests.Session() as session:
 
-    response = client.post('/authn/login', {"email": "test@ing", "password": ""})
-    assert response.status_code == 403
-    assert response.json()["message"] == "Invalid password"
+        # fields
+        response = session.post(f'{base_url}{endpoint}', {"email": "", "password": ""})
+        assert response.status_code == 400
+        assert response.json()["message"] == "Invalid email"
 
-    response = client.post('/authn/login', {"email": "test@ing", "password": "a"})
-    assert response.status_code == 403
-    assert response.json()["message"] == "Invalid password"
+        response = session.post(f'{base_url}{endpoint}', {"email": "a", "password": ""})
+        assert response.status_code == 400
+        assert response.json()["message"] == "Invalid email"
 
-    # login using non-registered account
-    response = client.post('/authn/login', {"email": "test@ing", "password": testing_password})
-    assert response.status_code == 400
-    assert response.json()["message"] == "Credentials are incorrect"
+        response = session.post(f'{base_url}{endpoint}', {"email": "test@ing", "password": ""})
+        assert response.status_code == 403
+        assert response.json()["message"] == "Invalid password"
 
-    # login using incorrect password
-    response = client.post('/authn/login', {"email": testing_email, "password": "abc12345678"})
-    assert response.status_code == 400
-    assert response.json()["message"] == "Credentials are incorrect"
+        response = session.post(f'{base_url}{endpoint}', {"email": "test@ing", "password": "a"})
+        assert response.status_code == 403
+        assert response.json()["message"] == "Invalid password"
 
-    # successful login
-    response = client.post('/authn/login', {"email": testing_email, "password": testing_password})
-    assert response.status_code == 200
-    assert response.json()["message"] == "Success"
-    assert response.json()["accessToken"] is not None
-    assert response.json()["userId"] is not None
+        # login using non-registered account
+        response = session.post(f'{base_url}{endpoint}', {"email": "test@ing", "password": testing_password})
+        assert response.status_code == 400
+        assert response.json()["message"] == "Credentials are incorrect"
+
+        # login using incorrect password
+        response = session.post(f'{base_url}{endpoint}', {"email": testing_email, "password": "abc12345678"})
+        assert response.status_code == 400
+        assert response.json()["message"] == "Credentials are incorrect"
+
+        # successful login
+        response = session.post(f'{base_url}{endpoint}', {"email": testing_email, "password": testing_password})
+        assert response.status_code == 200
+        assert response.json()["message"] == "Success"
+        assert response.json()["accessToken"] is not None
+        assert response.json()["userId"] is not None

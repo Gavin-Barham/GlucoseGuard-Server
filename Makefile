@@ -1,5 +1,3 @@
-include .env
-
 UNAME_S := $(shell uname -s)
 
 ifeq ($(UNAME_S),Linux)
@@ -9,13 +7,10 @@ ifeq ($(UNAME_S),Darwin)
 	VENV = source ./unit-testing/test/bin/activate
 endif
 
-DB_NAME = $(if $(POSTGRES_DB),$(POSTGRES_DB),TESTING)
-DB_USER = $(if $(POSTGRES_USER),$(POSTGRES_USER),TESTING)
-DB_PASS = $(if $(POSTGRES_PASSWORD),$(POSTGRES_PASSWORD),TESTING)
-
 setup: setup-venv setup-db
 
 start:
+	rm -rf ./dist
 	docker start ht-db
 	npm run testing
 
@@ -39,7 +34,7 @@ endif
 
 setup-db:
 	docker run --name ht-db -d -p 5432:5432 -e POSTGRES_HOST=localhost \
-	-e POSTGRES_DB=${DB_NAME} -e POSTGRES_USER=${DB_USER} -e POSTGRES_PASSWORD=${DB_PASS} \
+	-e POSTGRES_DB=TESTING -e POSTGRES_USER=TESTING -e POSTGRES_PASSWORD=TESTING \
 	postgres:latest
 	docker stop ht-db
 
