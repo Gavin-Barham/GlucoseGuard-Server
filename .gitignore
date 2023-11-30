@@ -4,6 +4,6 @@ dist
 production.env
 *.pem
 data/*
-unit-testing/.pytest_cache
-unit-testing/__pycache__
-unit-testing/test
+testing/.pytest_cache
+testing/__pycache__
+testing/venv

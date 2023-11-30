@@ -22,9 +22,7 @@ const validateJTW = (req: Request, res: Response, next: NextFunction) => {
 	// CHECK IF TOKEN IS VALID
 	try {
 		payload = jwt.verify(token, SECRET_TOKEN);
-		console.log(payload);
 	} catch (error) {
-		console.log(payload);
 		return res.status(403).send('Unauthorized: token does not match');
 	}
 

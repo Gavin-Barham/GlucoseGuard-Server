@@ -18,7 +18,7 @@ let SECRET_TOKEN, REFRESH_TOKEN, ACCESS_TOKEN_EXPIRE;
 if (process.env.npm_lifecycle_event === 'testing') {
 	SECRET_TOKEN = 'TESTING1';
 	REFRESH_TOKEN = 'TESTING2';
-	ACCESS_TOKEN_EXPIRE = '10s';
+	ACCESS_TOKEN_EXPIRE = '60s';
 } else {
 	SECRET_TOKEN = process.env.SECRET_TOKEN;
 	REFRESH_TOKEN = process.env.REFRESH_TOKEN;
@@ -70,7 +70,6 @@ const handleRegister = async (req: Request, res: Response) => {
 
 // VALIDATE LOGIN
 const handleLogin = async (req: Request, res: Response) => {
-	console.log('EXPIRE TIME IS: ', ACCESS_TOKEN_EXPIRE);
 	// VALIDATE USER REQUEST
 	const { email: reqEmail, password: reqPassword } = req.body;
 	const { error, status, message } = validateLogin(reqEmail, reqPassword);
