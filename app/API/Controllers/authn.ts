@@ -13,6 +13,18 @@ import { validateLogin } from '../Utils/validatLoginRequest.js';
 
 // CRUD CONTROLLERS
 
+let SECRET_TOKEN, REFRESH_TOKEN, ACCESS_TOKEN_EXPIRE;
+
+if (process.env.npm_lifecycle_event === 'testing') {
+	SECRET_TOKEN = 'TESTING1';
+	REFRESH_TOKEN = 'TESTING2';
+	ACCESS_TOKEN_EXPIRE = '60s';
+} else {
+	SECRET_TOKEN = process.env.SECRET_TOKEN;
+	REFRESH_TOKEN = process.env.REFRESH_TOKEN;
+	ACCESS_TOKEN_EXPIRE = '900s';
+}
+
 // REGISTER NEW USER
 const handleRegister = async (req: Request, res: Response) => {
 	const { email: reqEmail, password: reqPassword } = req.body;
@@ -81,20 +93,12 @@ const handleLogin = async (req: Request, res: Response) => {
 			.send({ ok: false, message: 'Credentials are incorrect' });
 	}
 	// CREATE AND ASSIGN JWT ACCESS TOKEN & REFRESH TOKEN
-	const accessToken = jwt.sign(
-		{ id: user.id },
-		process.env.SECRET_TOKEN || 'TESTING2',
-		{
-			expiresIn: '900s',
-		},
-	);
-	const refreshToken = jwt.sign(
-		{ id: user.id },
-		process.env.REFRESH_TOKEN || 'TESTING1',
-		{
-			expiresIn: '7d',
-		},
-	);
+	const accessToken = jwt.sign({ id: user.id }, SECRET_TOKEN, {
+		expiresIn: ACCESS_TOKEN_EXPIRE,
+	});
+	const refreshToken = jwt.sign({ id: user.id }, REFRESH_TOKEN, {
+		expiresIn: '7d',
+	});
 	try {
 		// ADD REFRESH TOKEN TO DATABASE
 		await USERS.update(
@@ -137,19 +141,14 @@ const handleRefreshToken = async (req: Request, res: Response) => {
 				.send({ ok: false, message: 'Could not find user' });
 
 		// VERIFY TOKEN
-		const match = jwt.verify(
-			refreshToken,
-			process.env.REFRESH_TOKEN || 'TESTING1',
-		);
+		const match = jwt.verify(refreshToken, REFRESH_TOKEN);
 		if (!match)
 			return res.status(403).send({ ok: false, message: 'Forbidden' });
 
 		// CREATE AND ASSIGN JWT ACCESS TOKEN
-		const accessToken = jwt.sign(
-			{ id: user.id },
-			process.env.SECRET_TOKEN || 'TESTING2',
-			{ expiresIn: '900s' },
-		);
+		const accessToken = jwt.sign({ id: user.id }, SECRET_TOKEN, {
+			expiresIn: '900s',
+		});
 		res.header('auth-token', accessToken).send({
 			ok: true,
 			message: 'Success',

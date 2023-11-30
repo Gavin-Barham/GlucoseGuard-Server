@@ -1,6 +1,14 @@
 import jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
 
+let SECRET_TOKEN;
+
+if (process.env.npm_lifecycle_event === 'testing') {
+	SECRET_TOKEN = 'TESTING1';
+} else {
+	SECRET_TOKEN = process.env.SECRET_TOKEN;
+}
+
 const validateJTW = (req: Request, res: Response, next: NextFunction) => {
 	const authHeader = req.headers.authorization;
 
@@ -13,7 +21,7 @@ const validateJTW = (req: Request, res: Response, next: NextFunction) => {
 
 	// CHECK IF TOKEN IS VALID
 	try {
-		payload = jwt.verify(token, process.env.SECRET_TOKEN);
+		payload = jwt.verify(token, SECRET_TOKEN);
 	} catch (error) {
 		return res.status(403).send('Unauthorized: token does not match');
 	}

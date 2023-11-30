@@ -4,7 +4,7 @@ const validateLogin = (email: string, password: string) => {
 		return {
 			error: true,
 			status: 400,
-			message: 'Invalid email',
+			message: 'Credentials are incorrect',
 		};
 	}
 
@@ -13,13 +13,13 @@ const validateLogin = (email: string, password: string) => {
 		return {
 			error: true,
 			status: 403,
-			message: 'Invalid password',
+			message: 'Credentials are incorrect',
 		};
 	} else
 		return {
 			error: false,
 			status: 200,
-			message: 'Password is valid',
+			message: 'Credentials are correct',
 		};
 };
 
