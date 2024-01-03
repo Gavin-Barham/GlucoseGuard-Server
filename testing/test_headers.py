@@ -19,7 +19,7 @@ def session():
     # missing: using expired token
 ])
 def test_invalid_headers(header, expected_status_code, expected_message, session):
-    response = session.get(f'http://localhost:3000/users/1', headers = header)
+    response = session.get(f"http://localhost:3000/users/1", headers = header)
     
     assert response.status_code == expected_status_code
     assert response.text == expected_message
@@ -36,7 +36,7 @@ def test_valid_header(session):
 
     response = session.post("http://localhost:3000/authn/login", {"email": "TESTING@1234", "password": "12345678"})
     valid_header = {"Authorization": f'Bearer {response.json()["accessToken"]}'}
-    response = session.get(f'http://localhost:3000/users/{response.json()["userId"]}', headers = valid_header)
+    response = session.get(f"http://localhost:3000/users/{response.json()['userId']}", headers = valid_header)
     
     assert response.status_code == 200
     assert response.json()["message"] == "Success"

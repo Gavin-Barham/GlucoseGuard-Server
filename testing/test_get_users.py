@@ -20,10 +20,14 @@ def setup():
         if user_account is None:
             session.post("http://localhost:3000/authn/register", {"email": email, "password": password})
 
+        login_response = session.post("http://localhost:3000/authn/login", {"email": email, "password": password})
+
         data = {
             "session": session,
             "connection": conn,
             "cursor": cur,
+            "user_id": str(login_response.json()["userId"]),
+            "valid_header": {"Authorization": f'Bearer {login_response.json()["accessToken"]}'}
         }
 
         yield data
@@ -44,13 +48,11 @@ def setup():
     ("", 404), # empty fields
 ])
 def test_invalid_user_ids(user_id, expected_status_code, setup):
-    login_response = setup["session"].post("http://localhost:3000/authn/login", {"email": email, "password": password})
-    get_users_response = setup["session"].get(f"http://localhost:3000/users/{user_id}", headers = {"Authorization": f'Bearer {login_response.json()["accessToken"]}'})
+    get_users_response = setup["session"].get(f"http://localhost:3000/users/{user_id}", headers = setup["valid_header"])
     assert get_users_response.status_code == expected_status_code
 
 def test_valid_user_id(setup):
-    login_response = setup["session"].post("http://localhost:3000/authn/login", {"email": email, "password": password})
-    get_users_response = setup["session"].get("http://localhost:3000/users/" + str(login_response.json()["userId"]), headers = {"Authorization": f'Bearer {login_response.json()["accessToken"]}'})
+    get_users_response = setup["session"].get(f"http://localhost:3000/users/{setup['user_id']}", headers = setup["valid_header"])
     
     assert get_users_response.status_code == 200
     assert get_users_response.json()["message"] == "Success"

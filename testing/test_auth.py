@@ -73,15 +73,15 @@ def test_invalid_registrations(email, password, expected_status_code, expected_m
     assert register_response.status_code == expected_status_code
     assert register_response.json()["message"] == expected_message
 
-@pytest.mark.parametrize("email, password, expected_status_code, expected_message", [
-    ("", "", 400, "Credentials are incorrect"), # empty fields
-    ("a", "", 400, "Credentials are incorrect"), # empty fields
-    ("a@", "", 403, "Credentials are incorrect"), # empty fields
-    ("a@", "1", 403, "Credentials are incorrect"), # invalid password
-    ("a@", "12345678", 400, "Credentials are incorrect"), # non-registered account
+@pytest.mark.parametrize("email, password, expected_status_code", [
+    ("", "", 400), # empty fields
+    ("a", "", 400), # empty fields
+    ("a@", "", 403), # empty fields
+    ("a@", "1", 403), # invalid password
+    ("a@", "12345678", 400), # non-registered account
 ])
-def test_invalid_logins(email, password, expected_status_code, expected_message, setup):
+def test_invalid_logins(email, password, expected_status_code, setup):
     login_response = setup["session"].post("http://localhost:3000/authn/login", {"email": email, "password": password})
     
     assert login_response.status_code == expected_status_code
-    assert login_response.json()["message"] == expected_message
+    assert login_response.json()["message"] == "Credentials are incorrect"
