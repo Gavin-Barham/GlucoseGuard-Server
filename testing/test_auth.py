@@ -36,7 +36,6 @@ def test_registration_and_login_with_existing_email(setup):
     cur = setup["cursor"]
 
     register_response = setup["session"].post("http://localhost:3000/authn/register", {"email": email, "password": password})
-    
     assert register_response.status_code == 201
     assert register_response.json()["message"] == "User created successfully"
 
@@ -45,17 +44,14 @@ def test_registration_and_login_with_existing_email(setup):
     assert user_account is not None
 
     register_same_email_response = setup["session"].post("http://localhost:3000/authn/register", {"email": email, "password": password})
-    
     assert register_same_email_response.status_code == 403
     assert register_same_email_response.json()["message"] == "Email already exists"
 
     login_invalid_password_response = setup["session"].post("http://localhost:3000/authn/login", {"email": email, "password": "123456789"})
-    
     assert login_invalid_password_response.status_code == 400
     assert login_invalid_password_response.json()["message"] == "Credentials are incorrect"
 
     login_response = setup["session"].post("http://localhost:3000/authn/login", {"email": email, "password": password})
-    
     assert login_response.status_code == 200
     assert login_response.json()["message"] == "Success"
     assert "accessToken" in login_response.json() and login_response.json()["accessToken"] is not None
@@ -69,7 +65,6 @@ def test_registration_and_login_with_existing_email(setup):
 ])
 def test_invalid_registrations(email, password, expected_status_code, expected_message, setup):
     register_response = setup["session"].post("http://localhost:3000/authn/register", {"email": email, "password": password})
-    
     assert register_response.status_code == expected_status_code
     assert register_response.json()["message"] == expected_message
 
@@ -82,6 +77,5 @@ def test_invalid_registrations(email, password, expected_status_code, expected_m
 ])
 def test_invalid_logins(email, password, expected_status_code, setup):
     login_response = setup["session"].post("http://localhost:3000/authn/login", {"email": email, "password": password})
-    
     assert login_response.status_code == expected_status_code
     assert login_response.json()["message"] == "Credentials are incorrect"
