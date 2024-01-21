@@ -20,7 +20,6 @@ def session():
 ])
 def test_invalid_headers(header, expected_status_code, expected_message, session):
     response = session.get(f"http://localhost:3000/users/1", headers = header)
-    
     assert response.status_code == expected_status_code
     assert response.text == expected_message
 
