@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import { Op } from 'sequelize';
 // MODELS
 import { DATES } from '../../Database/Models/Dates.js';
-import { USERS } from '../../Database/Models/Users.js';
 import { MEDICAL } from '../../Database/Models/Medical.js';
 import { NUTRITION } from '../../Database/Models/Nutrition.js';
 import { EXERCISE } from '../../Database/Models/Exercise.js';
@@ -29,33 +28,44 @@ const handleCreateDay = async (req: Request, res: Response) => {
 			return res.status(404).send({ ok: false, message: 'Invalid date' });
 		}
 		const creationDate = new Date(date);
-		const user = await USERS.findByPk(id);
-		const day = await DATES.create({
-			userId: user.id,
-			date: creationDate,
-		} as DatesCreationAttributes);
-		const medical = await MEDICAL.create({
-			dateId: day.dataValues.id,
+		const dateID = await DATES.findOne({
+			where: { userId: id, date: creationDate },
 		});
-		const nutrition = await NUTRITION.create({
-			dateId: day.dataValues.id,
-		});
-		const exercise = await EXERCISE.create({
-			dateId: day.dataValues.id,
-		});
-		await DATES.update(
-			{
-				medicalId: medical.dataValues.id,
-				nutritionId: nutrition.dataValues.id,
-				exerciseId: exercise.dataValues.id,
-			},
-			{
-				where: {
-					id: day.dataValues.id,
+		if (!dateID) {
+			const day = await DATES.create({
+				userId: id,
+				date: creationDate,
+			} as DatesCreationAttributes);
+			const medical = await MEDICAL.create({
+				dateId: day.dataValues.id,
+			});
+			const nutrition = await NUTRITION.create({
+				dateId: day.dataValues.id,
+			});
+			const exercise = await EXERCISE.create({
+				dateId: day.dataValues.id,
+			});
+			await DATES.update(
+				{
+					medicalId: medical.dataValues.id,
+					nutritionId: nutrition.dataValues.id,
+					exerciseId: exercise.dataValues.id,
 				},
-			},
-		);
-		return res.status(200).send({ ok: true, message: 'Success' });
+				{
+					where: {
+						id: day.dataValues.id,
+					},
+				},
+			);
+			res.status(201).send({
+				ok: true,
+				message: 'Successfully created day',
+			});
+			return;
+		}
+		return res
+			.status(200)
+			.send({ ok: true, message: 'Date already exists' });
 	} catch (err) {
 		console.error(err);
 		return res.status(500).send({
